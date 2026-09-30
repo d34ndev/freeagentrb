@@ -3,12 +3,15 @@ module FreeAgent
     BASE_URL = "https://api.freeagent.com/v2"
     SANDBOX_BASE_URL = "https://api.sandbox.freeagent.com/v2"
 
-    attr_reader :access_token, :sandbox, :subdomain, :adapter, :rate_limiter
+    attr_reader :access_token, :sandbox, :subdomain, :api_version, :adapter, :rate_limiter
 
-    def initialize(access_token:, sandbox: false, subdomain: nil, adapter: Faraday.default_adapter, stubs: nil, logger: nil, enable_rate_limit_test: false)
+    # api_version is sent as the X-Api-Version header, a date such as
+    # "2026-09-01". Without it, FreeAgent serves each endpoint's original version.
+    def initialize(access_token:, sandbox: false, subdomain: nil, api_version: nil, adapter: Faraday.default_adapter, stubs: nil, logger: nil, enable_rate_limit_test: false)
       @access_token = access_token
       @sandbox = sandbox
       @subdomain = subdomain
+      @api_version = api_version
       @adapter = adapter
       @logger = logger
       @enable_rate_limit_test = enable_rate_limit_test
@@ -27,6 +30,7 @@ module FreeAgent
         access_token: access_token,
         sandbox: sandbox,
         subdomain: subdomain,
+        api_version: api_version,
         adapter: adapter,
         stubs: @stubs,
         logger: @logger,
@@ -232,6 +236,8 @@ module FreeAgent
         # Make requests on behalf of a practice client
         conn.headers["X-Subdomain"] = subdomain if subdomain
 
+        conn.headers["X-Api-Version"] = api_version if api_version
+
         # Add X-RateLimit-Test header if enabled (for testing in sandbox)
         conn.headers["X-RateLimit-Test"] = "true" if @enable_rate_limit_test
 
@@ -248,6 +254,7 @@ module FreeAgent
 
         conn.headers["User-Agent"] = "freeagentrb/v#{VERSION} (github.com/deanpcmad/freeagentrb)"
         conn.headers["X-Subdomain"] = subdomain if subdomain
+        conn.headers["X-Api-Version"] = api_version if api_version
       end
     end
   end

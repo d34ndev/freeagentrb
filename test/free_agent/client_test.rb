@@ -47,4 +47,18 @@ class ClientTest < Minitest::Test
     refute_same client.connection, client.connection_upload
     assert_equal "testcompany", client.connection_upload.headers["X-Subdomain"]
   end
+
+  def test_api_version_sets_header
+    client = FreeAgent::Client.new access_token: "abc123", api_version: "2026-09-01"
+
+    assert_equal "2026-09-01", client.connection.headers["X-Api-Version"]
+    assert_equal "2026-09-01", client.connection_upload.headers["X-Api-Version"]
+    assert_equal "2026-09-01", client.on_behalf_of("testcompany").api_version
+  end
+
+  def test_api_version_defaults_to_nil
+    client = FreeAgent::Client.new access_token: "abc123"
+
+    assert_nil client.connection.headers["X-Api-Version"]
+  end
 end

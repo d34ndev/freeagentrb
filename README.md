@@ -21,6 +21,17 @@ See [this page](https://dev.freeagent.com/docs/quick_start) for more info.
 @client = FreeAgent::Client.new(access_token: "", sandbox: true)
 ```
 
+### API Versions
+
+FreeAgent versions breaking changes by date. Without a version, each endpoint
+behaves as it did before versioning was introduced. To opt in to a newer
+version, pass `api_version`, which is sent as the `X-Api-Version` header. See
+[the FreeAgent docs](https://dev.freeagent.com/docs/versioning) for more info.
+
+```ruby
+@client = FreeAgent::Client.new(access_token: "", api_version: "2026-09-01")
+```
+
 ### Rate Limiting
 
 The library automatically tracks rate limiting based on the FreeAgent API's `Retry-After` header when you receive a 429 (Too Many Requests) response. You can access rate limit information through the client's rate limiter:

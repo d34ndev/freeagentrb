@@ -24,13 +24,13 @@ end
 # Builds a client backed by Faraday's test adapter, for asserting on the
 # request itself (path, body) rather than on a recorded response. Ejects the
 # cassette inserted by setup, so that VCR doesn't record the stubbed responses.
-def stub_client
+def stub_client(**options)
   VCR.eject_cassette if VCR.current_cassette
 
   stubs = Faraday::Adapter::Test::Stubs.new
   yield stubs
   @stubs = stubs
-  FreeAgent::Client.new(access_token: "test_token", adapter: :test, stubs: stubs)
+  FreeAgent::Client.new(access_token: "test_token", adapter: :test, stubs: stubs, **options)
 end
 
 # Shorthand for a stubbed JSON response triplet

@@ -594,6 +594,16 @@ US and Universal companies only.
 @client.cis_bands.list
 ```
 
+### CIS Settings
+
+```ruby
+@client.cis_settings.retrieve
+@client.cis_settings.update contractor_details: { reporting_starts_on: "2024-05-06", paye_ni_period: "Monthly" }
+
+# Deregister as a contractor
+@client.cis_settings.update contractor_details: nil
+```
+
 ### Payroll
 
 Organised by tax year, then by period within that year. Read-only apart from

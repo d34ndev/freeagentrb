@@ -210,6 +210,10 @@ module FreeAgent
       CisBandsResource.new(self)
     end
 
+    def cis_settings
+      CisSettingsResource.new(self)
+    end
+
     def payroll
       PayrollResource.new(self)
     end

@@ -352,7 +352,6 @@ Read-only.
 
 @client.credit_notes.mark_as_sent id: "12345"
 @client.credit_notes.mark_as_draft id: "12345"
-@client.credit_notes.mark_as_cancelled id: "12345"
 ```
 
 ### Credit Note Reconciliations

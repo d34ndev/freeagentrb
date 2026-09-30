@@ -79,7 +79,7 @@ class CreditNotesResourceTest < Minitest::Test
   end
 
   def test_transitions_use_correct_paths
-    %w[mark_as_sent mark_as_draft mark_as_cancelled].each do |transition|
+    %w[mark_as_sent mark_as_draft].each do |transition|
       client = stub_client do |stubs|
         stubs.put("/v2/credit_notes/1/transitions/#{transition}") { json({}) }
       end

@@ -33,11 +33,6 @@ module FreeAgent
       CreditNote.new(response.body["credit_note"]) if response.success?
     end
 
-    # def duplicate(id:)
-    #   response = post_request("invoices/#{id}/duplicate", body: {})
-    #   Invoice.new(response.body["invoice"]) if response.success?
-    # end
-
     def update(id:, **params)
       response = put_request("credit_notes/#{id}", body: { credit_note: params })
       CreditNote.new(response.body["credit_note"]) if response.success?
@@ -61,11 +56,6 @@ module FreeAgent
 
     def mark_as_draft(id:)
       response = put_request("credit_notes/#{id}/transitions/mark_as_draft", body: {})
-      response.success?
-    end
-
-    def mark_as_cancelled(id:)
-      response = put_request("credit_notes/#{id}/transitions/mark_as_cancelled", body: {})
       response.success?
     end
   end

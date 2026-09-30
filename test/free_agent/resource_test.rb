@@ -28,11 +28,7 @@ class ResourceTest < Minitest::Test
   end
 
   def test_error_detection_with_error_in_body
-    response_with_error = Minitest::Mock.new
-    response_with_error.expect(:status, 200)
-    response_with_error.expect(:body, { "error" => "Something went wrong" })
-
-    assert @resource.send(:error?, response_with_error)
+    assert @resource.send(:error?, double_response(200, { "error" => "Something went wrong" }))
   end
 
   def test_handle_response_success
@@ -42,11 +38,17 @@ class ResourceTest < Minitest::Test
     assert_equal success_response, result
   end
 
+  # Returned as-is, so callers can check response.success?
   def test_handle_response_no_content
-    no_content_response = double_response(204)
+    no_content_response = double_response(204, "")
     result = @resource.send(:handle_response, no_content_response)
 
-    assert_equal true, result
+    assert_equal no_content_response, result
+  end
+
+  def test_error_detection_with_a_non_json_body
+    assert @resource.send(:error?, double_response(503, "<html>Service Unavailable</html>"))
+    refute @resource.send(:error?, double_response(200, "OK"))
   end
 
   def test_handle_response_raises_error_on_failure

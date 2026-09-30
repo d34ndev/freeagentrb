@@ -34,7 +34,6 @@ module FreeAgent
         client.rate_limiter.update(response.headers)
       end
 
-      return true if response.status == 204
       return response unless error?(response)
 
       raise_error(response)
@@ -42,7 +41,7 @@ module FreeAgent
 
     def error?(response)
       [ 400, 401, 403, 404, 409, 422, 429, 500, 501, 503 ].include?(response.status) ||
-        response.body&.key?("error")
+        (response.body.is_a?(Hash) && response.body.key?("error"))
     end
 
     def raise_error(response)

@@ -16,10 +16,10 @@ module FreeAgent
       @attributes = {}
       (attributes || {}).each { |key, val| self[key] = val }
 
-      # The FreeAgent API doesn't send an ID so generate it from the URL
+      # The FreeAgent API doesn't send an ID so take it from the end of the URL
       if self[:url].is_a?(String)
-        number = self[:url].match(/\d{2,}/)
-        self[:id] = number[0] unless number.nil?
+        number = self[:url].match(%r{/(\d+)\z})
+        self[:id] = number[1] unless number.nil?
       end
 
       self.class.decimal_attribute_names.each do |name|

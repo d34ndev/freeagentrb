@@ -28,6 +28,15 @@ class ObjectTest < Minitest::Test
     assert_equal "12345", object.id
   end
 
+  def test_id_is_generated_from_single_digit_and_nested_urls
+    assert_equal "1", FreeAgent::Object.new("url" => "https://api.freeagent.com/v2/users/1").id
+    assert_equal "17", FreeAgent::Object.new("url" => "https://api.freeagent.com/v2/journal_sets/37/journal_entries/17").id
+  end
+
+  def test_no_id_when_the_url_does_not_end_in_a_number
+    assert_nil FreeAgent::Object.new("url" => "https://api.freeagent.com/v2/company").id
+  end
+
   def test_nested_objects_get_an_id_from_their_url
     object = FreeAgent::Object.new("items" => [ { "url" => "https://api.freeagent.com/v2/attachments/33" } ])
     assert_equal "33", object.items.first.id

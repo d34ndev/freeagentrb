@@ -681,6 +681,9 @@ with `-` for descending order. `from_date` and `to_date` are also supported.
 ```ruby
 @client.account_managers.list
 @client.account_managers.retrieve(id: "123")
+
+# The account manager the access token belongs to
+@client.account_managers.me
 ```
 
 #### Making requests on behalf of a client

@@ -47,4 +47,17 @@ class PracticeResourceTest < Minitest::Test
     assert_equal "bobson@some-accounting-firm.com", manager.email
     assert_equal "123", manager.id
   end
+
+  def test_account_managers_me
+    client = stub_client do |stubs|
+      stubs.get("/v2/account_managers/me") do
+        json({ "account_manager" => { "url" => "https://api.freeagent.com/v2/account_managers/123", "name" => "Jane" } })
+      end
+    end
+
+    manager = client.account_managers.me
+
+    assert_equal FreeAgent::AccountManager, manager.class
+    assert_equal "123", manager.id
+  end
 end

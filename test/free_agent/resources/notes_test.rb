@@ -1,66 +1,51 @@
 require "test_helper"
 
 class NotesResourceTest < Minitest::Test
-  def test_list_for_contact_sends_the_parent_as_a_query_param
-    client = stub_client do |stubs|
-      stubs.get("/v2/notes?contact=https://api.freeagent.com/v2/contacts/1") do
-        json({ "notes" => [ { "note" => "Called them" } ] })
-      end
-    end
+  CONTACT = "https://api.freeagent.com/v2/contacts/1".freeze
+  PROJECT = "https://api.freeagent.com/v2/projects/1".freeze
 
-    notes = client.notes.list_for_contact(contact: "https://api.freeagent.com/v2/contacts/1")
+  def test_list_for_contact
+    stub_api(:get, "notes", query: { contact: CONTACT }, fixture: "notes/list_all_notes_for_a_contact")
 
-    assert_equal "Called them", notes.first.note
+    note = client.notes.list_for_contact(contact: CONTACT).first
+
+    assert_equal FreeAgent::Note, note.class
+    assert_equal "A new note", note.note
   end
 
-  def test_list_for_project_sends_the_parent_as_a_query_param
-    client = stub_client do |stubs|
-      stubs.get("/v2/notes?project=https://api.freeagent.com/v2/projects/1") { json({ "notes" => [] }) }
-    end
+  def test_list_for_project
+    stub_api(:get, "notes", query: { project: PROJECT }, fixture: "notes/list_all_notes_for_a_project")
 
-    assert_equal 0, client.notes.list_for_project(project: "https://api.freeagent.com/v2/projects/1").count
+    assert_equal FreeAgent::Note, client.notes.list_for_project(project: PROJECT).first.class
   end
 
-  def test_create_puts_the_parent_in_the_query_string_not_the_body
-    body = nil
-    client = stub_client do |stubs|
-      stubs.post("/v2/notes?contact=https://api.freeagent.com/v2/contacts/1") do |env|
-        body = JSON.parse(env.body)
-        json({ "note" => { "note" => "Called them" } })
-      end
-    end
+  def test_retrieve
+    stub_api(:get, "notes/1", fixture: "notes/get_a_single_note")
 
-    note = client.notes.create(note: "Called them", contact: "https://api.freeagent.com/v2/contacts/1")
-
-    assert_equal "Called them", note.note
-    assert_equal({ "note" => { "note" => "Called them" } }, body)
+    assert_equal "Development Team", client.notes.retrieve(id: 1).author
   end
 
-  def test_retrieve_returns_a_note
-    client = stub_client do |stubs|
-      stubs.get("/v2/notes/1") { json({ "note" => { "note" => "Called them" } }) }
-    end
+  # The parent goes in the query string, not the body
+  def test_create_for_a_contact
+    stub_api(:post, "notes", query: { contact: CONTACT }, request_body: { note: { note: "A new note" } }, fixture: "notes/create_a_note_for_a_contact")
 
-    assert_equal "Called them", client.notes.retrieve(id: 1).note
+    assert_equal "A new note", client.notes.create(note: "A new note", contact: CONTACT).note
   end
 
-  def test_update_wraps_payload_in_note_root
-    body = nil
-    client = stub_client do |stubs|
-      stubs.put("/v2/notes/1") do |env|
-        body = JSON.parse(env.body)
-        json({ "note" => { "note" => "Updated" } })
-      end
-    end
+  def test_create_for_a_project
+    stub_api(:post, "notes", query: { project: PROJECT }, request_body: { note: { note: "A new note" } }, fixture: "notes/create_a_note_for_a_project")
 
-    assert_equal "Updated", client.notes.update(id: 1, note: "Updated").note
-    assert_equal({ "note" => { "note" => "Updated" } }, body)
+    assert_equal FreeAgent::Note, client.notes.create(note: "A new note", project: PROJECT).class
   end
 
-  def test_delete_returns_true
-    client = stub_client do |stubs|
-      stubs.delete("/v2/notes/1") { json({}) }
-    end
+  def test_update_wraps_the_payload
+    stub_api(:put, "notes/1", request_body: { note: { note: "A new note" } }, fixture: "notes/update_a_note")
+
+    assert_equal FreeAgent::Note, client.notes.update(id: 1, note: "A new note").class
+  end
+
+  def test_delete
+    stub_api(:delete, "notes/1")
 
     assert_equal true, client.notes.delete(id: 1)
   end

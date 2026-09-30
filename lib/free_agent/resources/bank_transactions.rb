@@ -21,7 +21,7 @@ module FreeAgent
     def upload(bank_account:, statement:)
       # This method uses Faraday Multipart (lostisland/faraday-multipart)
       payload = {}
-      payload[:statement] = Faraday::Multipart::FilePart.new(statement, "text/x-ruby")
+      payload[:statement] = Faraday::Multipart::FilePart.new(statement, "application/octet-stream")
 
       response = client.connection_upload.post "bank_transactions/statement?bank_account=#{bank_account}", payload
       response.success?

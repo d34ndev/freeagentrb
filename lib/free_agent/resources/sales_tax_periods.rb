@@ -11,8 +11,14 @@ module FreeAgent
       SalesTaxPeriod.new(response.body["sales_tax_period"])
     end
 
-    def create(starts_on:, first_rate:, **params)
-      attributes = { starts_on: starts_on, first_rate: first_rate }
+    def create(sales_tax_name:, sales_tax_registration_status:, sales_tax_rate_1:, sales_tax_is_value_added:, effective_date:, **params)
+      attributes = {
+        sales_tax_name: sales_tax_name,
+        sales_tax_registration_status: sales_tax_registration_status,
+        sales_tax_rate_1: sales_tax_rate_1,
+        sales_tax_is_value_added: sales_tax_is_value_added,
+        effective_date: effective_date
+      }
 
       response = post_request("sales_tax_periods", body: { sales_tax_period: attributes.merge(params) })
       SalesTaxPeriod.new(response.body["sales_tax_period"]) if response.success?

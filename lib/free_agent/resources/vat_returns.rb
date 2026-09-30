@@ -21,14 +21,14 @@ module FreeAgent
       response.success?
     end
 
-    # Paid and unpaid are marked on an individual payment within the return
-    def mark_payment_as_paid(period_ends_on:, payment_id:, **params)
-      response = put_request("vat_returns/#{period_ends_on}/payments/#{payment_id}/mark_as_paid", body: params)
+    # A return can have several payments, each identified by its due_on date
+    def mark_payment_as_paid(period_ends_on:, payment_date:)
+      response = put_request("vat_returns/#{period_ends_on}/payments/#{payment_date}/mark_as_paid", body: {})
       response.success?
     end
 
-    def mark_payment_as_unpaid(period_ends_on:, payment_id:)
-      response = put_request("vat_returns/#{period_ends_on}/payments/#{payment_id}/mark_as_unpaid", body: {})
+    def mark_payment_as_unpaid(period_ends_on:, payment_date:)
+      response = put_request("vat_returns/#{period_ends_on}/payments/#{payment_date}/mark_as_unpaid", body: {})
       response.success?
     end
   end

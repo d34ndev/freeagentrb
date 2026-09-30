@@ -1,5 +1,5 @@
 module FreeAgent
   class CreditNoteReconciliation < Object
-    decimal_attributes :value
+    decimal_attributes :gross_value
   end
 end

@@ -21,17 +21,9 @@ class OAuthTest < Minitest::Test
   end
 
   def test_token_returns_an_object
-    VCR.eject_cassette
-    stubs = Faraday::Adapter::Test::Stubs.new do |stub|
-      stub.post("https://api.sandbox.freeagent.com/v2//token_endpoint") do
-        [ 200, {}, JSON.dump({ "access_token" => "abc", "refresh_token" => "def", "expires_in" => 604800 }) ]
-      end
-    end
-    original = Faraday.default_connection
-    Faraday.default_connection = Faraday.new do |conn|
-      conn.request :url_encoded
-      conn.adapter :test, stubs
-    end
+    stub_request(:post, "https://api.sandbox.freeagent.com/v2//token_endpoint")
+      .with(body: { client_id: "test_id", client_secret: "test_secret", grant_type: "authorization_code", code: "code", redirect_uri: "https://example.com" })
+      .to_return(body: { access_token: "abc", refresh_token: "def", expires_in: 604800 }.to_json)
 
     oauth = FreeAgent::OAuth.new(client_id: "test_id", client_secret: "test_secret")
     token = oauth.token(code: "code", redirect: "https://example.com")
@@ -39,7 +31,5 @@ class OAuthTest < Minitest::Test
     assert_equal FreeAgent::Object, token.class
     assert_equal "abc", token.access_token
     assert_equal 604800, token.expires_in
-  ensure
-    Faraday.default_connection = original
   end
 end

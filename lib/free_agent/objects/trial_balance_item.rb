@@ -1,5 +1,5 @@
 module FreeAgent
   class TrialBalanceItem < Object
-    decimal_attributes :debit_value, :credit_value
+    decimal_attributes :total
   end
 end

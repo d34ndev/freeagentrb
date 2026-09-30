@@ -5,9 +5,11 @@ module FreeAgent
       Collection.from_response(response, type: JournalSet)
     end
 
-    def opening_balances(**params)
-      response = get_request("journal_sets/opening_balances", params: params)
-      Collection.from_response(response, type: JournalSet)
+    # A single journal set, with the opening balances for bank accounts and
+    # stock items alongside its journal entries
+    def opening_balances
+      response = get_request("journal_sets/opening_balances")
+      JournalSet.new(response.body["journal_set"])
     end
 
     def retrieve(id:)

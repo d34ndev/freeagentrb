@@ -13,12 +13,12 @@ module FreeAgent
     def create(**params)
       raise "first_name and last_name or organisation_name is required" unless !params[:first_name].nil? || !params[:organisation_name].nil?
 
-      response = post_request("contacts", body: params)
+      response = post_request("contacts", body: { contact: params })
       Contact.new(response.body["contact"]) if response.success?
     end
 
     def update(id:, **params)
-      response = put_request("contacts/#{id}", body: params)
+      response = put_request("contacts/#{id}", body: { contact: params })
       Contact.new(response.body["contact"]) if response.success?
     end
 

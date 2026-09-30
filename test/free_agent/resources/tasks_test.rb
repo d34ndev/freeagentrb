@@ -1,92 +1,46 @@
 require "test_helper"
 
 class TasksResourceTest < Minitest::Test
-  TASK = {
-    "url" => "https://api.freeagent.com/v2/tasks/1",
-    "project" => "https://api.freeagent.com/v2/projects/1",
-    "name" => "Sample Task",
-    "currency" => "GBP",
-    "is_billable" => true,
-    "billing_rate" => "0.0",
-    "billing_period" => "hour",
-    "status" => "Active"
-  }.freeze
+  PROJECT = "https://api.freeagent.com/v2/projects/1".freeze
 
   def test_list
-    client = stub_client do |stubs|
-      stubs.get("/v2/tasks") { json({ "tasks" => [ TASK ] }) }
-    end
+    stub_api(:get, "tasks", query: { view: "active", updated_since: "2017-04-06" }, fixture: "tasks/list_all_tasks")
 
-    tasks = client.tasks.list
-
-    assert_equal FreeAgent::Collection, tasks.class
-    assert_equal FreeAgent::Task, tasks.first.class
-    assert_equal "Sample Task", tasks.first.name
-    assert_equal true, tasks.first.is_billable
+    assert_equal FreeAgent::Task, client.tasks.list(view: "active", updated_since: "2017-04-06").first.class
   end
 
   def test_list_for_project
-    client = stub_client do |stubs|
-      stubs.get("/v2/tasks?project=https://api.freeagent.com/v2/projects/1") do
-        json({ "tasks" => [ TASK ] })
-      end
-    end
+    stub_api(:get, "tasks", query: { project: PROJECT }, fixture: "tasks/list_all_tasks")
 
-    assert_equal 1, client.tasks.list_for_project(project: "https://api.freeagent.com/v2/projects/1").count
+    assert_equal FreeAgent::Task, client.tasks.list_for_project(project: PROJECT).first.class
   end
 
   def test_retrieve
-    client = stub_client do |stubs|
-      stubs.get("/v2/tasks/1") { json({ "task" => TASK }) }
-    end
+    stub_api(:get, "tasks/1", fixture: "tasks/get_a_single_task")
 
     task = client.tasks.retrieve(id: 1)
 
-    assert_equal FreeAgent::Task, task.class
-    assert_equal "Active", task.status
+    assert_equal "Sample Task", task.name
+    assert_equal "GBP", task.currency
+    assert_equal false, task.is_deletable
   end
 
-  def test_create_sends_required_attributes
-    body = nil
-    client = stub_client do |stubs|
-      stubs.post("/v2/tasks?project=https://api.freeagent.com/v2/projects/1") do |env|
-        body = JSON.parse(env.body)
-        json({ "task" => TASK }, status: 201)
-      end
-    end
+  # The project goes in the query string, not the body
+  def test_create_sends_the_project_in_the_query
+    stub_api(:post, "tasks", query: { project: PROJECT }, request_body: { task: { name: "Sample Task", is_billable: true } },
+      status: 201, fixture: "tasks/create_a_task_under_a_certain_project")
 
-    task = client.tasks.create(
-      project: "https://api.freeagent.com/v2/projects/1",
-      name: "Sample Task",
-      currency: "GBP",
-      is_billable: true,
-      status: "Active"
-    )
-
-    # The project goes in the query string, not the payload
-    assert_equal "Sample Task", body["task"]["name"]
-    assert_equal true, body["task"]["is_billable"]
-    refute body["task"].key?("project")
-    assert_equal FreeAgent::Task, task.class
+    assert_equal FreeAgent::Task, client.tasks.create(project: PROJECT, name: "Sample Task", is_billable: true).class
   end
 
-  def test_update_wraps_payload_in_task_root
-    body = nil
-    client = stub_client do |stubs|
-      stubs.put("/v2/tasks/1") do |env|
-        body = JSON.parse(env.body)
-        json({ "task" => TASK.merge("name" => "Renamed") })
-      end
-    end
+  def test_update_wraps_the_payload
+    stub_api(:put, "tasks/1", request_body: { task: { name: "Renamed" } }, fixture: "tasks/get_a_single_task")
 
-    assert_equal "Renamed", client.tasks.update(id: 1, name: "Renamed").name
-    assert_equal({ "task" => { "name" => "Renamed" } }, body)
+    assert_equal FreeAgent::Task, client.tasks.update(id: 1, name: "Renamed").class
   end
 
   def test_delete
-    client = stub_client do |stubs|
-      stubs.delete("/v2/tasks/1") { json({}) }
-    end
+    stub_api(:delete, "tasks/1")
 
     assert_equal true, client.tasks.delete(id: 1)
   end

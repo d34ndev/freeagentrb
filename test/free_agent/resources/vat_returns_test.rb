@@ -1,51 +1,38 @@
 require "test_helper"
 
 class VatReturnsResourceTest < Minitest::Test
-  def test_list_returns_vat_returns
-    client = stub_client do |stubs|
-      stubs.get("/v2/vat_returns") { json({ "vat_returns" => [ { "period_ends_on" => "2026-03-31" } ] }) }
-    end
+  def test_list
+    stub_api(:get, "vat_returns", fixture: "vat_returns/list_vat_returns_for_a_company")
 
-    assert_equal "2026-03-31", client.vat_returns.list.first.period_ends_on
+    vat_return = client.vat_returns.list.first
+
+    assert_equal FreeAgent::VatReturn, vat_return.class
+    assert_match(/\A\d{4}-\d{2}-\d{2}\z/, vat_return.period_ends_on)
   end
 
-  def test_retrieve_is_keyed_by_period_end_date
-    client = stub_client do |stubs|
-      stubs.get("/v2/vat_returns/2026-03-31") { json({ "vat_return" => { "period_ends_on" => "2026-03-31" } }) }
-    end
+  def test_retrieve_includes_the_breakdown
+    stub_api(:get, "vat_returns/2023-07-31", fixture: "vat_returns/fetch_details_for_a_vat_return")
 
-    assert_equal "2026-03-31", client.vat_returns.retrieve(period_ends_on: "2026-03-31").period_ends_on
+    vat_return = client.vat_returns.retrieve(period_ends_on: "2023-07-31")
+
+    assert_equal "5450.91", vat_return.payments.first.amount_due
+    assert_equal "vatDueSales", vat_return.breakdown.rows.first.key
+    assert_equal 1, vat_return.breakdown.rows.first.box_number
   end
 
-  def test_mark_as_filed_uses_correct_path
-    client = stub_client do |stubs|
-      stubs.put("/v2/vat_returns/2026-03-31/mark_as_filed") { json({}) }
-    end
+  def test_filing_transitions
+    stub_api(:put, "vat_returns/2023-07-31/mark_as_filed", request_body: {}, fixture: "vat_returns/mark_a_vat_return_as_filed")
+    stub_api(:put, "vat_returns/2023-07-31/mark_as_unfiled", request_body: {}, fixture: "vat_returns/mark_a_vat_return_as_unfiled")
 
-    assert_equal true, client.vat_returns.mark_as_filed(period_ends_on: "2026-03-31")
+    assert_equal true, client.vat_returns.mark_as_filed(period_ends_on: "2023-07-31")
+    assert_equal true, client.vat_returns.mark_as_unfiled(period_ends_on: "2023-07-31")
   end
 
-  def test_mark_as_unfiled_uses_correct_path
-    client = stub_client do |stubs|
-      stubs.put("/v2/vat_returns/2026-03-31/mark_as_unfiled") { json({}) }
-    end
+  def test_payment_transitions_are_keyed_by_payment_date
+    stub_api(:put, "vat_returns/2023-07-31/payments/2023-09-07/mark_as_paid", request_body: {}, fixture: "vat_returns/mark_a_vat_return_payment_as_paid")
+    stub_api(:put, "vat_returns/2023-07-31/payments/2023-09-07/mark_as_unpaid", request_body: {}, fixture: "vat_returns/mark_a_vat_return_payment_as_unpaid")
 
-    assert_equal true, client.vat_returns.mark_as_unfiled(period_ends_on: "2026-03-31")
-  end
-
-  def test_mark_payment_as_paid_targets_the_payment
-    client = stub_client do |stubs|
-      stubs.put("/v2/vat_returns/2026-03-31/payments/9/mark_as_paid") { json({}) }
-    end
-
-    assert_equal true, client.vat_returns.mark_payment_as_paid(period_ends_on: "2026-03-31", payment_id: 9)
-  end
-
-  def test_mark_payment_as_unpaid_targets_the_payment
-    client = stub_client do |stubs|
-      stubs.put("/v2/vat_returns/2026-03-31/payments/9/mark_as_unpaid") { json({}) }
-    end
-
-    assert_equal true, client.vat_returns.mark_payment_as_unpaid(period_ends_on: "2026-03-31", payment_id: 9)
+    assert_equal true, client.vat_returns.mark_payment_as_paid(period_ends_on: "2023-07-31", payment_date: "2023-09-07")
+    assert_equal true, client.vat_returns.mark_payment_as_unpaid(period_ends_on: "2023-07-31", payment_date: "2023-09-07")
   end
 end

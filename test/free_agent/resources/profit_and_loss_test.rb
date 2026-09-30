@@ -1,16 +1,21 @@
 require "test_helper"
 
 class ProfitAndLossResourceTest < Minitest::Test
-  def test_summary_returns_items
-    client = stub_client do |stubs|
-      stubs.get("/v2/accounting/profit_and_loss/summary?from_date=2026-01-01&to_date=2026-03-31") do
-        json({ "profit_and_loss_summary" => [ { "category" => "Sales", "credit_value" => "2000.0" } ] })
-      end
-    end
+  def test_summary_returns_the_profit_and_loss
+    stub_api(:get, "accounting/profit_and_loss/summary", query: { from_date: "2016-06-01", to_date: "2016-09-05" },
+      fixture: "profit_and_loss/get_the_p_l_summary")
 
-    item = client.profit_and_loss.summary(from_date: "2026-01-01", to_date: "2026-03-31").first
+    summary = client.profit_and_loss.summary(from_date: "2016-06-01", to_date: "2016-09-05")
 
-    assert_equal "Sales", item.category
-    assert_equal 2000.0, item.credit_value
+    assert_equal FreeAgent::ProfitAndLoss, summary.class
+    assert_equal 3800.0, summary.income
+    assert_equal(-4400.0, summary.operating_profit)
+    assert_equal "Dividends", summary.less[1].title
+  end
+
+  def test_summary_by_accounting_period
+    stub_api(:get, "accounting/profit_and_loss/summary", query: { accounting_period: "2022/23" }, fixture: "profit_and_loss/get_the_p_l_summary")
+
+    assert_equal 11367.0, client.profit_and_loss.summary(accounting_period: "2022/23").retained_profit_carried_forward
   end
 end

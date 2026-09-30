@@ -15,15 +15,15 @@ module FreeAgent
       User.new(response.body["user"])
     end
 
-    def create(email:, first_name:, last_name:, role:, opening_mileage: 0,  **params)
+    def create(email:, first_name:, last_name:, role:, opening_mileage: 0, **params)
       attributes = { email: email, first_name: first_name, last_name: last_name, role: role, opening_mileage: opening_mileage }
 
-      response = post_request("users", body: attributes.merge(params))
+      response = post_request("users", body: { user: attributes.merge(params) })
       User.new(response.body["user"]) if response.success?
     end
 
     def update(id:, **params)
-      response = put_request("users/#{id}", body: params)
+      response = put_request("users/#{id}", body: { user: params })
       User.new(response.body["user"]) if response.success?
     end
 

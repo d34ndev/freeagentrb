@@ -2,8 +2,7 @@ require "test_helper"
 
 class IntegrationTest < Minitest::Test
   def setup
-    super
-    @client = setup_client
+    @client = FreeAgent::Client.new(access_token: "test_token", sandbox: true)
   end
 
   def test_client_initialization_with_sandbox

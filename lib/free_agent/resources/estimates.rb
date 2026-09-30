@@ -38,6 +38,12 @@ module FreeAgent
       Estimate.new(response.body["estimate"]) if response.success?
     end
 
+    # The copy is a draft dated today, with the next reference in the sequence
+    def duplicate(id:)
+      response = post_request("estimates/#{id}/duplicate", body: {})
+      Estimate.new(response.body["estimate"]) if response.success?
+    end
+
     def update(id:, **params)
       response = put_request("estimates/#{id}", body: { estimate: params })
       Estimate.new(response.body["estimate"]) if response.success?
@@ -76,6 +82,22 @@ module FreeAgent
 
     def convert_to_invoice(id:)
       response = put_request("estimates/#{id}/transitions/convert_to_invoice", body: {})
+      response.success?
+    end
+
+    # The text added to the bottom of every new estimate
+    def default_additional_text
+      response = get_request("estimates/default_additional_text")
+      response.body["default_additional_text"]
+    end
+
+    def update_default_additional_text(text)
+      response = put_request("estimates/default_additional_text", body: { default_additional_text: text })
+      response.success?
+    end
+
+    def delete_default_additional_text
+      response = delete_request("estimates/default_additional_text")
       response.success?
     end
   end

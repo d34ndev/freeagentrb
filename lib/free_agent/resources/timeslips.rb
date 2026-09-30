@@ -25,11 +25,18 @@ module FreeAgent
       Timeslip.new(response.body["timeslip"])
     end
 
-    def create(task:, user:, project:, dated_on:, hours:,  **params)
+    def create(task:, user:, project:, dated_on:, hours:, **params)
       attributes = { task: task, user: user, project: project, dated_on: dated_on, hours: hours }
 
       response = post_request("timeslips", body: { timeslip: attributes.merge(params) })
       Timeslip.new(response.body["timeslip"]) if response.success?
+    end
+
+    # Creates several timeslips in one request. Each is a hash of the same
+    # attributes create takes.
+    def create_many(timeslips:)
+      response = post_request("timeslips", body: { timeslips: timeslips })
+      response.success?
     end
 
     def update(id:, **params)

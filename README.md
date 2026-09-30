@@ -106,6 +106,12 @@ Attributes that reference another record are given as full URLs, e.g.
 
 ```ruby
 @client.company.retrieve
+
+# The business categories a company can choose from, as strings
+@client.company.business_categories
+
+# Upcoming tax deadlines and payments
+@client.company.tax_timeline
 ```
 
 ### Contacts
@@ -221,6 +227,13 @@ above.
 @client.timeslips.list_for_project project: "https://api.freeagent.com/v2/projects/1"
 @client.timeslips.retrieve(id: "12345")
 @client.timeslips.create task: "...", user: "...", project: "...", dated_on: "2026-08-15", hours: "7.5"
+
+# Create several at once
+@client.timeslips.create_many timeslips: [
+  { task: "...", user: "...", project: "...", dated_on: "2026-08-15", hours: "7.5" },
+  { task: "...", user: "...", project: "...", dated_on: "2026-08-16", hours: "6.0" }
+]
+
 @client.timeslips.update id: "12345", hours: "8.0"
 @client.timeslips.delete id: "12345"
 
@@ -282,6 +295,9 @@ credit notes, bills, estimates and expenses.
 @client.estimates.update id: "12345", reference: "002"
 @client.estimates.delete id: "12345"
 
+# The copy is a draft dated today, with the next reference
+@client.estimates.duplicate id: "12345"
+
 # Returns a Base64-encoded PDF
 @client.estimates.retrieve_pdf id: "12345"
 
@@ -292,6 +308,11 @@ credit notes, bills, estimates and expenses.
 @client.estimates.mark_as_approved id: "12345"
 @client.estimates.mark_as_rejected id: "12345"
 @client.estimates.convert_to_invoice id: "12345"
+
+# The text added to the bottom of every new estimate
+@client.estimates.default_additional_text
+@client.estimates.update_default_additional_text "Please respond within 21 days"
+@client.estimates.delete_default_additional_text
 ```
 
 ### Estimate Items
@@ -360,8 +381,8 @@ Read-only.
 @client.credit_note_reconciliations.list
 @client.credit_note_reconciliations.retrieve(id: "12345")
 @client.credit_note_reconciliations.create credit_note: "https://api.freeagent.com/v2/credit_notes/1",
-  invoice: "https://api.freeagent.com/v2/invoices/2", value: "50.0"
-@client.credit_note_reconciliations.update id: "12345", value: "75.0"
+  invoice: "https://api.freeagent.com/v2/invoices/2", gross_value: "50.0"
+@client.credit_note_reconciliations.update id: "12345", gross_value: "75.0"
 @client.credit_note_reconciliations.delete id: "12345"
 ```
 
@@ -465,8 +486,9 @@ Verified sender addresses, returned as a plain `Array` of strings.
 ### Account Locks
 
 ```ruby
+# The locks, plus earliest_lock_date and latest_lock_date
 @client.account_locks.retrieve
-@client.account_locks.update locked_until: "2026-03-31"
+@client.account_locks.update locked_to_date: "2026-03-31"
 @client.account_locks.delete
 ```
 
@@ -479,6 +501,17 @@ with the `category_type` it was listed under.
 @client.categories.list
 # => [#<FreeAgent::Category description="Accommodation and Travel",
 #      nominal_code="250", category_type="admin_expenses_categories">, ...]
+
+# Include bank account, user and other sub accounts
+@client.categories.list sub_accounts: true
+
+@client.categories.retrieve nominal_code: "001"
+
+# category_group is one of income, cost_of_sales, admin_expenses,
+# current_assets, liabilities or equities
+@client.categories.create description: "Consulting", nominal_code: "047", category_group: "income"
+@client.categories.update nominal_code: "047", description: "Consultancy"
+@client.categories.delete nominal_code: "047"
 ```
 
 ### Capital Assets
@@ -512,18 +545,25 @@ Read-only.
 
 ### Reports
 
-All read-only. Each returns a `FreeAgent::Collection` of line items.
+All read-only.
 
 ```ruby
-@client.balance_sheet.retrieve period_ends_on: "2026-03-31"
+# Returns a FreeAgent::BalanceSheet. Defaults to today
+@client.balance_sheet.retrieve
+@client.balance_sheet.retrieve as_at_date: "2026-03-31"
 @client.balance_sheet.opening_balances
 
+# Returns a FreeAgent::ProfitAndLoss. Defaults to the current accounting year to date
 @client.profit_and_loss.summary from_date: "2026-01-01", to_date: "2026-03-31"
+@client.profit_and_loss.summary accounting_period: "2025/26"
 
+# Return a collection of FreeAgent::TrialBalanceItem
 @client.trial_balance.summary
+@client.trial_balance.summary to_date: "2026-03-31"
 @client.trial_balance.opening_balances
 
-@client.cashflow.retrieve
+# Returns a FreeAgent::Cashflow
+@client.cashflow.retrieve from_date: "2026-01-01", to_date: "2026-03-31"
 ```
 
 ### Final Accounts Reports
@@ -539,16 +579,18 @@ Reports are identified by the date their accounting period ends, not by an id.
 
 ### VAT Returns
 
-Read-only, and identified by the date their period ends. Payments are marked
-paid individually.
+Identified by the date their period ends. Each return includes a `breakdown`
+of the boxes on the return.
 
 ```ruby
 @client.vat_returns.list
 @client.vat_returns.retrieve period_ends_on: "2026-03-31"
 @client.vat_returns.mark_as_filed period_ends_on: "2026-03-31"
 @client.vat_returns.mark_as_unfiled period_ends_on: "2026-03-31"
-@client.vat_returns.mark_payment_as_paid period_ends_on: "2026-03-31", payment_id: "12345"
-@client.vat_returns.mark_payment_as_unpaid period_ends_on: "2026-03-31", payment_id: "12345"
+
+# Payments are identified by their due_on date
+@client.vat_returns.mark_payment_as_paid period_ends_on: "2026-03-31", payment_date: "2026-05-07"
+@client.vat_returns.mark_payment_as_unpaid period_ends_on: "2026-03-31", payment_date: "2026-05-07"
 ```
 
 ### Corporation Tax Returns
@@ -564,16 +606,18 @@ paid individually.
 
 ### Self Assessment Returns
 
-Nested under a user. The Income Tax Returns docs page describes these same
-endpoints.
+Nested under a user, and identified by the date the period ends. FreeAgent's
+docs call these Income Tax Returns.
 
 ```ruby
 @client.self_assessment_returns.list user_id: "12345"
 @client.self_assessment_returns.retrieve user_id: "12345", period_ends_on: "2026-04-05"
 @client.self_assessment_returns.mark_as_filed user_id: "12345", period_ends_on: "2026-04-05"
 @client.self_assessment_returns.mark_as_unfiled user_id: "12345", period_ends_on: "2026-04-05"
-@client.self_assessment_returns.mark_as_paid user_id: "12345", period_ends_on: "2026-04-05"
-@client.self_assessment_returns.mark_as_unpaid user_id: "12345", period_ends_on: "2026-04-05"
+
+# Payments are identified by their due_on date
+@client.self_assessment_returns.mark_payment_as_paid user_id: "12345", period_ends_on: "2026-04-05", payment_date: "2027-01-31"
+@client.self_assessment_returns.mark_payment_as_unpaid user_id: "12345", period_ends_on: "2026-04-05", payment_date: "2027-01-31"
 ```
 
 ### Sales Tax Periods
@@ -583,8 +627,9 @@ US and Universal companies only.
 ```ruby
 @client.sales_tax_periods.list
 @client.sales_tax_periods.retrieve(id: "12345")
-@client.sales_tax_periods.create starts_on: "2026-01-01", first_rate: "20.0"
-@client.sales_tax_periods.update id: "12345", first_rate: "17.5"
+@client.sales_tax_periods.create sales_tax_name: "Sales Tax", sales_tax_registration_status: "Registered",
+  sales_tax_rate_1: "8.0", sales_tax_is_value_added: false, effective_date: "2026-01-01"
+@client.sales_tax_periods.update id: "12345", sales_tax_rate_1: "8.5"
 @client.sales_tax_periods.delete id: "12345"
 ```
 
@@ -611,9 +656,14 @@ the payment transitions.
 
 ```ruby
 @client.payroll.list year: 2026
+
+# A period, with its payslips
 @client.payroll.retrieve year: 2026, period: 1
-@client.payroll.mark_payment_as_paid year: 2026, period: 1
-@client.payroll.mark_payment_as_unpaid year: 2026, period: 1
+
+# PAYE payments due to HMRC, identified by their due_on date
+@client.payroll.payments year: 2026
+@client.payroll.mark_payment_as_paid year: 2026, payment_date: "2025-05-22"
+@client.payroll.mark_payment_as_unpaid year: 2026, payment_date: "2025-05-22"
 ```
 
 ### Payroll Profiles
@@ -713,3 +763,16 @@ end
 `on_behalf_of` returns a new client and leaves the original untouched, so the
 practice-level client can still be used for `clients`, `account_managers` and
 `practice`.
+
+## Development
+
+Tests stub every request with [WebMock](https://github.com/bblimke/webmock),
+using the example responses from the [FreeAgent API docs](https://dev.freeagent.com/docs)
+saved in `test/fixtures`. To refresh them when the docs change:
+
+```sh
+bin/fixtures                  # every page
+bin/fixtures contacts bills   # just these pages
+```
+
+Then run the tests with `bundle exec rake test`.

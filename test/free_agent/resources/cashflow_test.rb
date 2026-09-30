@@ -1,14 +1,14 @@
 require "test_helper"
 
 class CashflowResourceTest < Minitest::Test
-  def test_retrieve_returns_cashflow_items
-    client = stub_client do |stubs|
-      stubs.get("/v2/cashflow") { json({ "cashflow" => [ { "period" => "2026-01", "money_in" => "500.0" } ] }) }
-    end
+  def test_retrieve_returns_the_cashflow
+    stub_api(:get, "cashflow", query: { from_date: "2019-07-01", to_date: "2019-09-30" }, fixture: "cashflow/cashflow_summary_for_a_given_date_range")
 
-    item = client.cashflow.retrieve.first
+    cashflow = client.cashflow.retrieve(from_date: "2019-07-01", to_date: "2019-09-30")
 
-    assert_equal "2026-01", item.period
-    assert_equal 500.0, item.money_in
+    assert_equal FreeAgent::Cashflow, cashflow.class
+    assert_equal 12593.21, cashflow.balance
+    assert_equal "68869.76", cashflow.incoming.total
+    assert_equal 7, cashflow.outgoing.months.first.month
   end
 end

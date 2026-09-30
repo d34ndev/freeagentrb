@@ -7,11 +7,12 @@ module FreeAgent
 
     def retrieve(id:)
       response = get_request("credit_note_reconciliations/#{id}")
-      CreditNoteReconciliation.new(response.body["credit_note_reconciliation"])
+      # The docs show this under a plural root, unlike create and update
+      CreditNoteReconciliation.new(response.body["credit_note_reconciliation"] || response.body["credit_note_reconciliations"])
     end
 
-    def create(credit_note:, invoice:, value:, **params)
-      attributes = { credit_note: credit_note, invoice: invoice, value: value }
+    def create(credit_note:, invoice:, gross_value:, **params)
+      attributes = { credit_note: credit_note, invoice: invoice, gross_value: gross_value }
 
       response = post_request("credit_note_reconciliations", body: { credit_note_reconciliation: attributes.merge(params) })
       CreditNoteReconciliation.new(response.body["credit_note_reconciliation"]) if response.success?

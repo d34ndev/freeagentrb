@@ -1,62 +1,29 @@
 require "test_helper"
 
 class EstimateItemsResourceTest < Minitest::Test
-  ESTIMATE_ITEM = {
-    "url" => "https://api.freeagent.com/v2/estimate_items/1",
-    "position" => 1,
-    "item_type" => "Hours",
-    "quantity" => "10.0",
-    "price" => "100.0",
-    "description" => "Consultancy"
-  }.freeze
+  ESTIMATE = "https://api.freeagent.com/v2/estimates/1".freeze
 
+  # The estimate URL is a sibling of estimate_item, not nested inside it
   def test_create_sends_estimate_and_item_as_separate_roots
-    body = nil
-    client = stub_client do |stubs|
-      stubs.post("/v2/estimate_items") do |env|
-        body = JSON.parse(env.body)
-        json({ "estimate_item" => ESTIMATE_ITEM }, status: 201)
-      end
-    end
+    stub_api(:post, "estimate_items",
+      request_body: { estimate: ESTIMATE, estimate_item: { item_type: "Hours", quantity: "1.03333333", price: "12.2", description: "sada" } },
+      fixture: "estimates/create_an_estimate_item")
 
-    item = client.estimate_items.create(
-      estimate: "https://api.freeagent.com/v2/estimates/1",
-      item_type: "Hours",
-      quantity: "10.0",
-      price: "100.0",
-      description: "Consultancy"
-    )
-
-    assert_equal "https://api.freeagent.com/v2/estimates/1", body["estimate"]
-    assert_equal "Consultancy", body["estimate_item"]["description"]
-    assert_equal "Hours", body["estimate_item"]["item_type"]
-
-    # The estimate URL is a sibling of estimate_item, not nested inside it
-    refute body["estimate_item"].key?("estimate")
+    item = client.estimate_items.create(estimate: ESTIMATE, item_type: "Hours", quantity: "1.03333333", price: "12.2", description: "sada")
 
     assert_equal FreeAgent::EstimateItem, item.class
+    assert_equal "2", item.id
   end
 
-  def test_update_wraps_payload_in_estimate_item_root
-    body = nil
-    client = stub_client do |stubs|
-      stubs.put("/v2/estimate_items/1") do |env|
-        body = JSON.parse(env.body)
-        json({ "estimate_item" => ESTIMATE_ITEM.merge("description" => "Updated") })
-      end
-    end
+  def test_update_wraps_the_payload
+    stub_api(:put, "estimate_items/2", request_body: { estimate_item: { description: "sada" } }, fixture: "estimates/create_an_estimate_item")
 
-    item = client.estimate_items.update(id: 1, description: "Updated")
-
-    assert_equal({ "estimate_item" => { "description" => "Updated" } }, body)
-    assert_equal "Updated", item.description
+    assert_equal "sada", client.estimate_items.update(id: 2, description: "sada").description
   end
 
   def test_delete
-    client = stub_client do |stubs|
-      stubs.delete("/v2/estimate_items/1") { json({}) }
-    end
+    stub_api(:delete, "estimate_items/2")
 
-    assert_equal true, client.estimate_items.delete(id: 1)
+    assert_equal true, client.estimate_items.delete(id: 2)
   end
 end

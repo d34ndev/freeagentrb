@@ -1,50 +1,42 @@
-$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
 require "freeagentrb"
+
 require "minitest/autorun"
 require "faraday"
 require "json"
-require "vcr"
-require "dotenv/load"
+require "webmock/minitest"
 
-VCR.configure do |config|
-  config.cassette_library_dir = "test/vcr_cassettes"
-  config.hook_into :faraday
+WebMock.disable_net_connect!
 
-  config.filter_sensitive_data("<AUTHORIZATION>") { ENV["FREEAGENT_ACCESS_TOKEN"] }
+API_URL = "https://api.freeagent.com/v2".freeze
+FIXTURES_DIR = File.expand_path("fixtures", __dir__).freeze
 
-  # Tests built on stub_client eject their cassette and use Faraday's test
-  # adapter instead, so no real connection is made without a cassette.
-  config.allow_http_connections_when_no_cassette = true
+# Example responses from the FreeAgent API docs, downloaded by bin/fixtures,
+# e.g. read_fixture("contacts/list_all_contacts")
+def read_fixture(name)
+  File.read(File.join(FIXTURES_DIR, "#{name}.json"))
 end
 
-def setup_client
-  @client ||= FreeAgent::Client.new(access_token: ENV["FREEAGENT_ACCESS_TOKEN"], sandbox: true)
-end
+module StubHelpers
+  def client(**options)
+    @client ||= FreeAgent::Client.new(access_token: "test_token", **options)
+  end
 
-# Builds a client backed by Faraday's test adapter, for asserting on the
-# request itself (path, body) rather than on a recorded response. Ejects the
-# cassette inserted by setup, so that VCR doesn't record the stubbed responses.
-def stub_client(**options)
-  VCR.eject_cassette if VCR.current_cassette
+  # request_body matches the JSON request body exactly, so stray attributes in
+  # the body fail the stub. body can be a string or anything that converts to JSON.
+  def stub_api(method, path, query: nil, request_body: nil, headers: nil, fixture: nil, status: 200, body: nil, response_headers: {})
+    body = read_fixture(fixture) if fixture
+    body = body.to_json unless body.nil? || body.is_a?(String)
 
-  stubs = Faraday::Adapter::Test::Stubs.new
-  yield stubs
-  @stubs = stubs
-  FreeAgent::Client.new(access_token: "test_token", adapter: :test, stubs: stubs, **options)
-end
-
-# Shorthand for a stubbed JSON response triplet
-def json(body, status: 200)
-  [ status, { "Content-Type" => "application/json" }, JSON.dump(body) ]
+    stub = stub_request(method, "#{API_URL}/#{path}")
+    stub = stub.with(query: query) if query
+    # WebMock treats an empty hash as "match anything", so compare empty bodies as a string
+    stub = stub.with(body: request_body.empty? ? "{}" : request_body) if request_body
+    stub = stub.with(headers: headers) if headers
+    stub.to_return(status: status, body: body || "", headers: { "Content-Type" => "application/json" }.merge(response_headers))
+  end
 end
 
 class Minitest::Test
-  def setup
-    VCR.insert_cassette(name)
-  end
-
-  def teardown
-    VCR.eject_cassette if VCR.current_cassette
-    @stubs&.verify_stubbed_calls
-  end
+  include StubHelpers
 end

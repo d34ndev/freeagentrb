@@ -1,97 +1,49 @@
 require "test_helper"
 
 class ProjectsResourceTest < Minitest::Test
-  PROJECT = {
-    "url" => "https://api.freeagent.com/v2/projects/1",
-    "name" => "Test Project",
-    "contact" => "https://api.freeagent.com/v2/contacts/1",
-    "contact_name" => "Acme Trading",
-    "budget" => 0,
-    "status" => "Active",
-    "budget_units" => "Hours",
-    "normal_billing_rate" => "0.0",
-    "hours_per_day" => "8.0",
-    "currency" => "GBP",
-    "billing_period" => "hour",
-    "is_ir35" => false
-  }.freeze
+  CONTACT = "https://api.freeagent.com/v2/contacts/1".freeze
 
   def test_list
-    client = stub_client do |stubs|
-      stubs.get("/v2/projects") { json({ "projects" => [ PROJECT ] }) }
-    end
+    stub_api(:get, "projects", query: { view: "active", nested: "true" }, fixture: "projects/list_all_projects")
 
-    projects = client.projects.list
+    project = client.projects.list(view: "active", nested: true).first
 
-    assert_equal FreeAgent::Collection, projects.class
-    assert_equal FreeAgent::Project, projects.first.class
-    assert_equal "Test Project", projects.first.name
-    assert_equal false, projects.first.is_ir35
+    assert_equal FreeAgent::Project, project.class
   end
 
   def test_list_for_contact
-    client = stub_client do |stubs|
-      stubs.get("/v2/projects?contact=https://api.freeagent.com/v2/contacts/1") do
-        json({ "projects" => [ PROJECT ] })
-      end
-    end
+    stub_api(:get, "projects", query: { contact: CONTACT }, fixture: "projects/list_all_projects")
 
-    projects = client.projects.list_for_contact(contact: "https://api.freeagent.com/v2/contacts/1")
-
-    assert_equal "Acme Trading", projects.first.contact_name
+    assert_equal FreeAgent::Project, client.projects.list_for_contact(contact: CONTACT).first.class
   end
 
   def test_retrieve
-    client = stub_client do |stubs|
-      stubs.get("/v2/projects/1") { json({ "project" => PROJECT }) }
-    end
+    stub_api(:get, "projects/1", fixture: "projects/get_a_single_project")
 
     project = client.projects.retrieve(id: 1)
 
-    assert_equal FreeAgent::Project, project.class
-    assert_equal "Hours", project.budget_units
+    assert_equal "Test Project", project.name
+    assert_equal "Acme Trading", project.contact_name
   end
 
-  def test_create_sends_required_attributes
-    body = nil
-    client = stub_client do |stubs|
-      stubs.post("/v2/projects") do |env|
-        body = JSON.parse(env.body)
-        json({ "project" => PROJECT }, status: 201)
-      end
-    end
+  def test_create_wraps_the_payload
+    stub_api(:post, "projects",
+      request_body: { project: { contact: CONTACT, name: "Test Project", status: "Active", currency: "GBP", budget_units: "Hours" } },
+      status: 201, fixture: "projects/create_a_project")
 
-    project = client.projects.create(
-      contact: "https://api.freeagent.com/v2/contacts/1",
-      name: "Test Project",
-      status: "Active",
-      currency: "GBP",
-      budget_units: "Hours"
-    )
+    project = client.projects.create(contact: CONTACT, name: "Test Project", status: "Active", currency: "GBP", budget_units: "Hours")
 
-    assert_equal "Test Project", body["project"]["name"]
-    assert_equal "Active", body["project"]["status"]
-    assert_equal "Hours", body["project"]["budget_units"]
     assert_equal FreeAgent::Project, project.class
   end
 
-  def test_update_wraps_payload_in_project_root
-    body = nil
-    client = stub_client do |stubs|
-      stubs.put("/v2/projects/1") do |env|
-        body = JSON.parse(env.body)
-        json({ "project" => PROJECT.merge("name" => "Renamed") })
-      end
-    end
+  def test_update_wraps_the_payload
+    stub_api(:put, "projects/1", request_body: { project: { name: "Renamed" } }, fixture: "projects/get_a_single_project")
 
-    assert_equal "Renamed", client.projects.update(id: 1, name: "Renamed").name
-    assert_equal({ "project" => { "name" => "Renamed" } }, body)
+    assert_equal FreeAgent::Project, client.projects.update(id: 1, name: "Renamed").class
   end
 
   def test_delete
-    client = stub_client do |stubs|
-      stubs.delete("/v2/projects/1") { json({}) }
-    end
+    stub_api(:delete, "projects/1")
 
     assert_equal true, client.projects.delete(id: 1)
   end

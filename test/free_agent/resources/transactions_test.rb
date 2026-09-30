@@ -2,29 +2,21 @@ require "test_helper"
 
 class TransactionsResourceTest < Minitest::Test
   def test_list_uses_the_accounting_path
-    client = stub_client do |stubs|
-      stubs.get("/v2/accounting/transactions") { json({ "transactions" => [ { "description" => "Sales", "debit_value" => "12.5" } ] }) }
-    end
+    stub_api(:get, "accounting/transactions", query: { from_date: "2023-01-01", to_date: "2023-06-30", nominal_code: "750-1" },
+      fixture: "transactions/list_all_transactions")
 
-    transaction = client.transactions.list.first
+    transaction = client.transactions.list(from_date: "2023-01-01", to_date: "2023-06-30", nominal_code: "750-1").first
 
-    assert_equal "Sales", transaction.description
-    assert_equal 12.5, transaction.debit_value
+    assert_equal FreeAgent::Transaction, transaction.class
   end
 
-  def test_list_passes_date_range_params
-    client = stub_client do |stubs|
-      stubs.get("/v2/accounting/transactions?from_date=2026-01-01&to_date=2026-06-30") { json({ "transactions" => [] }) }
-    end
+  def test_retrieve
+    stub_api(:get, "accounting/transactions/1", fixture: "transactions/get_a_single_transaction")
 
-    assert_equal 0, client.transactions.list(from_date: "2026-01-01", to_date: "2026-06-30").count
-  end
+    transaction = client.transactions.retrieve(id: 1)
 
-  def test_retrieve_returns_a_transaction
-    client = stub_client do |stubs|
-      stubs.get("/v2/accounting/transactions/1") { json({ "transaction" => { "description" => "Sales" } }) }
-    end
-
-    assert_equal "Sales", client.transactions.retrieve(id: 1).description
+    assert_equal "Bank Account", transaction.category_name
+    assert_equal 30.0, transaction.debit_value
+    assert_equal "1", transaction.id
   end
 end

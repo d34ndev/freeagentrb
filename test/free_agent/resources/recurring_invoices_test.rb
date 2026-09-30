@@ -1,33 +1,29 @@
 require "test_helper"
 
 class RecurringInvoicesResourceTest < Minitest::Test
-  def test_list_returns_recurring_invoices
-    client = stub_client do |stubs|
-      stubs.get("/v2/recurring_invoices") { json({ "recurring_invoices" => [ { "reference" => "001", "total_value" => "100.0" } ] }) }
-    end
+  def test_list
+    stub_api(:get, "recurring_invoices", query: { view: "draft" }, fixture: "recurring_invoices/list_all_recurring_invoices")
 
-    invoices = client.recurring_invoices.list
-
-    assert_equal 1, invoices.count
-    assert_equal "001", invoices.first.reference
-    assert_equal 100.0, invoices.first.total_value
+    assert_equal FreeAgent::RecurringInvoice, client.recurring_invoices.list(view: "draft").first.class
   end
 
-  def test_list_for_contact_filters_by_contact
-    client = stub_client do |stubs|
-      stubs.get("/v2/recurring_invoices?contact=https://api.freeagent.com/v2/contacts/1") do
-        json({ "recurring_invoices" => [] })
-      end
-    end
+  def test_list_for_contact_and_project
+    contact = "https://api.freeagent.com/v2/contacts/1"
+    project = "https://api.freeagent.com/v2/projects/1"
+    stub_api(:get, "recurring_invoices", query: { contact: contact }, fixture: "recurring_invoices/list_all_recurring_invoices")
+    stub_api(:get, "recurring_invoices", query: { project: project }, fixture: "recurring_invoices/list_all_recurring_invoices")
 
-    assert_equal 0, client.recurring_invoices.list_for_contact(contact: "https://api.freeagent.com/v2/contacts/1").count
+    assert_equal FreeAgent::RecurringInvoice, client.recurring_invoices.list_for_contact(contact: contact).first.class
+    assert_equal FreeAgent::RecurringInvoice, client.recurring_invoices.list_for_project(project: project).first.class
   end
 
-  def test_retrieve_returns_a_recurring_invoice
-    client = stub_client do |stubs|
-      stubs.get("/v2/recurring_invoices/1") { json({ "recurring_invoice" => { "reference" => "001" } }) }
-    end
+  def test_retrieve_coerces_monetary_values
+    stub_api(:get, "recurring_invoices/1", fixture: "recurring_invoices/get_a_single_recurring_invoice")
 
-    assert_equal "001", client.recurring_invoices.retrieve(id: 1).reference
+    invoice = client.recurring_invoices.retrieve(id: 1)
+
+    assert_equal "Weekly", invoice.frequency
+    assert_equal 2.4, invoice.total_value
+    assert_equal 0.4, invoice.sales_tax_value
   end
 end

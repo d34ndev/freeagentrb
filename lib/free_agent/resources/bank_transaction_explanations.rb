@@ -17,7 +17,7 @@ module FreeAgent
 
     def create(**params)
       raise "bank_account or bank_transaction is required" unless !params[:bank_account].nil? || !params[:bank_transaction].nil?
-      response = post_request("bank_transaction_explanations", body: params)
+      response = post_request("bank_transaction_explanations", body: { bank_transaction_explanation: params })
       BankTransactionExplanation.new(response.body["bank_transaction_explanation"])
     end
 

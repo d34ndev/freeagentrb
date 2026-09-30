@@ -2,7 +2,7 @@ module FreeAgent
   class CashflowResource < Resource
     def retrieve(**params)
       response = get_request("cashflow", params: params)
-      Collection.from_response(response, type: CashflowItem)
+      Cashflow.new(response.body["cashflow"])
     end
   end
 end

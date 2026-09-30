@@ -1,42 +1,50 @@
 require "test_helper"
 
 class BankTransactionsResourceTest < Minitest::Test
-  def test_bank_transactions_list
-    setup_client
-    bank_transactions = @client.bank_transactions.list(bank_account: 40462)
+  BANK_ACCOUNT = "https://api.freeagent.com/v2/bank_accounts/1".freeze
+
+  def test_list
+    stub_api(:get, "bank_transactions", query: { bank_account: BANK_ACCOUNT, view: "unexplained" },
+      fixture: "bank_transactions/list_all_bank_transactions_under_a_certain_bank_account")
+
+    bank_transactions = client.bank_transactions.list(bank_account: BANK_ACCOUNT, view: "unexplained")
 
     assert_equal FreeAgent::Collection, bank_transactions.class
     assert_equal FreeAgent::BankTransaction, bank_transactions.first.class
+    assert_equal "8", bank_transactions.first.id
+    assert_equal(-730.0, bank_transactions.first.amount)
   end
 
-  def test_bank_transactions_retrieve
-    setup_client
-    bank_transaction = @client.bank_transactions.retrieve(id: 2615513)
+  def test_retrieve
+    stub_api(:get, "bank_transactions/15", fixture: "bank_transactions/get_a_single_bank_transaction")
+
+    bank_transaction = client.bank_transactions.retrieve(id: 15)
+
     assert_equal FreeAgent::BankTransaction, bank_transaction.class
-    assert_equal 25.0, bank_transaction.amount
+    assert_equal(-730.0, bank_transaction.amount)
+    assert_equal 0.0, bank_transaction.unexplained_amount
   end
 
-  def test_bank_transactions_create
-    setup_client
-    statement = [
-      {
-        "dated_on" => "2025-10-02",
-        "description" => "Test Transaction",
-        "amount" => 10.0,
-        "transaction_type" => "Credit",
-        "reference" => "TestRef123"
-      }
-    ]
-    result = @client.bank_transactions.create(bank_account: 40462, statement: statement)
-    assert_equal true, result
+  def test_create_posts_the_statement
+    statement = [ { dated_on: "2026-08-15", description: "Hosting", amount: "-10.0", transaction_type: "DEBIT" } ]
+    stub_api(:post, "bank_transactions/statement", query: { bank_account: BANK_ACCOUNT }, request_body: { statement: statement })
+
+    assert_equal true, client.bank_transactions.create(bank_account: BANK_ACCOUNT, statement: statement)
   end
 
-  def test_bank_transactions_upload
-    setup_client
-    filepath = File.join(File.dirname(__FILE__), "..", "..", "fixtures", "example_statement.csv")
-    result = @client.bank_transactions.upload(bank_account: 40462, statement: filepath)
+  def test_upload_sends_the_file
+    stub_request(:post, "#{API_URL}/bank_transactions/statement")
+      .with(query: { bank_account: BANK_ACCOUNT }, headers: { "Content-Type" => %r{\Amultipart/form-data} }) { |request| request.body.include?("Dunder Mifflin") }
 
-    assert_equal true, result
+    filepath = File.join(FIXTURES_DIR, "example_statement.csv")
+
+    assert_equal true, client.bank_transactions.upload(bank_account: BANK_ACCOUNT, statement: filepath)
+  end
+
+  def test_delete
+    stub_api(:delete, "bank_transactions/15")
+
+    assert_equal true, client.bank_transactions.delete(id: 15)
   end
 
   def test_amounts_are_coerced_to_floats

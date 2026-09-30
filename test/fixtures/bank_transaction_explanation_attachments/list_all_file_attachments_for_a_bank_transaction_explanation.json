@@ -1,0 +1,26 @@
+{
+  "attachments": [
+    {
+      "url": "https://api.freeagent.com/v2/attachments/3",
+      "content_src": "https://s3.amazonaws.com/freeagent-dev/attachments/1/original.png?AWSAccessKeyId=...&Expires=...&Signature=...",
+      "content_src_medium": "https://5tak8uqfvj.execute-api.eu-west-1.amazonaws.com/thumbnail/freeagent-production-attachments/...",
+      "content_src_small": "https://5tak8uqfvj.execute-api.eu-west-1.amazonaws.com/thumbnail/freeagent-production-attachments/...",
+      "expires_at": "2020-12-03T10:27:52.000Z",
+      "content_type": "image/png",
+      "file_name": "receipt1.png",
+      "file_size": 7673,
+      "description": "Receipt for printer"
+    },
+    {
+      "url": "https://api.freeagent.com/v2/attachments/9",
+      "content_src": "https://s3.amazonaws.com/freeagent-dev/attachments/1/original.png?AWSAccessKeyId=...&Expires=...&Signature=...",
+      "content_src_medium": "https://5tak8uqfvj.execute-api.eu-west-1.amazonaws.com/thumbnail/freeagent-production-attachments/...",
+      "content_src_small": "https://5tak8uqfvj.execute-api.eu-west-1.amazonaws.com/thumbnail/freeagent-production-attachments/...",
+      "expires_at": "2020-12-03T10:27:52.000Z",
+      "content_type": "image/png",
+      "file_name": "receipt2.png",
+      "file_size": 5409,
+      "description": "Receipt for paper"
+    }
+  ]
+}

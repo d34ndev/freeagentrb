@@ -1,0 +1,20 @@
+{
+  "profiles": [
+    {
+      "user": "https://api.freeagent.com/v2/users/107",
+      "payroll_reference": "EMP001",
+      "address_line_1": "133 Fountainbridge",
+      "address_line_2": "Tollcross",
+      "address_line_3": "Edinburgh",
+      "address_line_4": "City of Edinburgh",
+      "postcode": "EH3 9QJ",
+      "title": "Dr",
+      "gender": "Female",
+      "date_of_birth": "1990-08-17",
+      "total_pay_in_previous_employment": "1000.0",
+      "total_tax_in_previous_employment": "200.0",
+      "created_at": "2024-08-07T14:27:32.000Z",
+      "updated_at": "2024-08-07T14:27:32.000Z"
+    }
+  ]
+}

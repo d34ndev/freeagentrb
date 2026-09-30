@@ -1,0 +1,28 @@
+{
+  "bank_transaction_explanations": [
+    {
+      "url": "https://api.freeagent.com/v2/bank_transaction_explanations/20",
+      "bank_transaction": "https://api.freeagent.com/v2/bank_transactions/20",
+      "bank_account": "https://api.freeagent.com/v2/bank_accounts/1",
+      "category": "https://api.freeagent.com/v2/categories/366",
+      "dated_on": "2019-12-01",
+      "description": "transform plug-and-play convergence",
+      "gross_value": "-90.0",
+      "project": "https://api.freeagent.com/v2/projects/1",
+      "rebill_type": "markup",
+      "rebill_factor": "0.25",
+      "updated_at": "2020-02-06T11:08:28.000Z",
+      "sales_tax_status": "TAXABLE",
+      "sales_tax_rate": "0.0",
+      "sales_tax_value": "0.0",
+      "is_deletable": true,
+      "attachment": {
+        "url": "https://api.freeagent.com/v2/attachments/3",
+        "content_src": "https://s3.amazonaws.com/freeagent-dev/attachments/2/original.pdf?AWSAccessKeyId=1K3MW21E6T8KWBY84B02&Expires=1316186571&Signature=tA4V5%2BJEE%2Fc3JTg5AiIO494m0cA%3D",
+        "content_type": "application/pdf",
+        "file_name": "About Stacks.pdf",
+        "file_size": 466028
+      }
+    }
+  ]
+}

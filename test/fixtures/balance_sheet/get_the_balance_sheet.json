@@ -1,0 +1,93 @@
+{
+  "balance_sheet": {
+    "accounting_period_start_date": "2023-03-01",
+    "as_at_date": "2023-09-30",
+    "currency": "GBP",
+    "capital_assets": {
+      "accounts": [
+        {
+          "name": "Other Capital Asset Brought Forward",
+          "nominal_code": "601-4",
+          "total_debit_value": 800
+        },
+        {
+          "name": "Other Capital Asset Purchase",
+          "nominal_code": "602-4",
+          "total_debit_value": 1649
+        },
+        {
+          "name": "Other Capital Asset Depreciation Brought Forward",
+          "nominal_code": "605-4",
+          "total_debit_value": -533
+        },
+        {
+          "name": "Other Capital Asset Depreciation",
+          "nominal_code": "606-4",
+          "total_debit_value": -816
+        }
+      ],
+      "net_book_value": 1099
+    },
+    "current_assets": {
+      "accounts": [
+        {
+          "name": "Trade Debtors",
+          "nominal_code": "681",
+          "total_debit_value": 2040
+        },
+        {
+          "name": "Bank Account: Default bank account",
+          "nominal_code": "750-1",
+          "total_debit_value": 21722
+        },
+        {
+          "name": "VAT Reclaimed",
+          "nominal_code": "818",
+          "total_debit_value": 78
+        }
+      ]
+    },
+    "current_liabilities": {
+      "accounts": [
+        {
+          "name": "Trade Creditors",
+          "nominal_code": "796",
+          "total_debit_value": -865
+        },
+        {
+          "name": "VAT",
+          "nominal_code": "817",
+          "total_debit_value": -5083
+        },
+        {
+          "name": "Corporation Tax",
+          "nominal_code": "820",
+          "total_debit_value": -4932
+        },
+        {
+          "name": "Expense Account: Development Team",
+          "nominal_code": "905-1",
+          "total_debit_value": -2055
+        },
+        {
+          "name": "Suspense Account",
+          "nominal_code": "999",
+          "total_debit_value": -100
+        }
+      ]
+    },
+    "net_current_assets": 10806,
+    "total_assets": 11905,
+    "owners_equity": {
+      "accounts": [
+        {
+          "name": "Share Premium",
+          "nominal_code": "670",
+          "total_debit_value": -30
+        }
+      ],
+      "retained_profit": -11875
+    },
+    "total_owners_equity": -11905
+  }
+}

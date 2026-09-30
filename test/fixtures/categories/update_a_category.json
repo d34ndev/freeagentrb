@@ -1,0 +1,9 @@
+{
+  "income_categories": {
+    "url": "https://api.freeagent.com/v2/categories/047",
+    "description": "Custom Income Category",
+    "group_description": "Income (normally VATable)",
+    "nominal_code": "047",
+    "auto_sales_tax_rate": "Standard rate"
+  }
+}

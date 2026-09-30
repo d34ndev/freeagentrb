@@ -1,0 +1,11 @@
+{
+  "cost_of_sales_categories": {
+    "url": "https://api.freeagent.com/v2/categories/101",
+    "description": "Custom Cost of Sales Category",
+    "group_description": "Cost of sales (normally VATable)",
+    "nominal_code": "101",
+    "allowable_for_tax": true,
+    "tax_reporting_name": "Purchases",
+    "auto_sales_tax_rate": "Standard rate"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "invoice_timeline_items": [
+    {
+      "reference": "007",
+      "summary": "Payment: 007: £14.40 received",
+      "description": "resras",
+      "dated_on": "2011-09-02",
+      "amount": "14.4"
+    }
+  ]
+}

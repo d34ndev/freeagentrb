@@ -1,0 +1,19 @@
+{
+  "trial_balance_summary": [
+    {
+      "category": "https://api.freeagent.com/v2/categories/001",
+      "nominal_code": "001",
+      "display_nominal_code": "001",
+      "name": "Sales",
+      "total": "250.0"
+    },
+    {
+      "category": "https://api.freeagent.com/v2/categories/750",
+      "nominal_code": "750-65345",
+      "display_nominal_code": "750-1",
+      "name": "Bank Account Default bank account",
+      "total": "0.0",
+      "bank_account": "https://api.freeagent.com/v2/bank_accounts/10"
+    }
+  ]
+}

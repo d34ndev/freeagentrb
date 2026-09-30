@@ -1,0 +1,76 @@
+{
+  "vat_return": {
+    "url": "https://api.freeagent.com/v2/vat_returns/2023-07-31",
+    "period_ends_on": "2023-07-31",
+    "period_starts_on": "2023-05-01",
+    "payments": [
+      {
+        "label": "Payment Due",
+        "amount_due": "5450.91",
+        "due_on": "2023-09-07",
+        "status": "unpaid"
+      }
+    ],
+    "filing_due_on": "2023-09-07",
+    "filing_status": "unfiled",
+    "breakdown": {
+      "title": "VAT Return 01 May 23 to 31 Jul 23",
+      "rows": [
+        {
+          "title": "VAT due on sales and other outputs",
+          "value": "9658.63",
+          "key": "vatDueSales",
+          "box_number": 1
+        },
+        {
+          "title": "VAT due on acquisitions from other EC Member States",
+          "value": "0.0",
+          "key": "vatDueAcquisitions",
+          "box_number": 2
+        },
+        {
+          "title": "Total VAT due",
+          "value": "9658.63",
+          "key": "totalVatDue",
+          "box_number": 3
+        },
+        {
+          "title": "VAT reclaimed on purchases and other inputs (including acquisitions from the EC)",
+          "value": "4207.72",
+          "key": "vatReclaimedCurrPeriod",
+          "box_number": 4
+        },
+        {
+          "title": "Net VAT to be paid to Customs or reclaimed by you",
+          "value": "5450.91",
+          "key": "netVatDue",
+          "box_number": 5
+        },
+        {
+          "title": "Total value of sales and all other outputs excluding any VAT",
+          "value": "48293.0",
+          "key": "totalValueSalesExVAT",
+          "box_number": 6
+        },
+        {
+          "title": "Total value of purchases and all other inputs excluding any VAT",
+          "value": "21039.0",
+          "key": "totalValuePurchasesExVAT",
+          "box_number": 7
+        },
+        {
+          "title": "Total value of all supplies of goods and related costs, excluding any VAT, to other EC Member States",
+          "value": "0.0",
+          "key": "totalValueGoodsSuppliedExVAT",
+          "box_number": 8
+        },
+        {
+          "title": "Total value of all acquisitions of goods and related costs, excluding any VAT, from other EC Member States",
+          "value": "0.0",
+          "key": "totalValueGoodsAcquiredExVAT",
+          "box_number": 9
+        }
+      ]
+    }
+  }
+}

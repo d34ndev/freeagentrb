@@ -1,0 +1,34 @@
+{
+  "trial_balance_summary": [
+    {
+      "category": "https://api.freeagent.com/v2/categories/101",
+      "nominal_code": "101",
+      "display_nominal_code": "101",
+      "name": "Cost of Sales",
+      "total": "275.0"
+    },
+    {
+      "category": "https://api.freeagent.com/v2/categories/750",
+      "nominal_code": "750-65345",
+      "display_nominal_code": "750-1",
+      "name": "Bank Account Default bank account",
+      "total": "-12860.0",
+      "bank_account": "https://api.freeagent.com/v2/bank_accounts/10"
+    },
+    {
+      "category": "https://api.freeagent.com/v2/categories/902",
+      "nominal_code": "902-6465",
+      "display_nominal_code:": "902-1",
+      "name": "Salary and Bonuses: Bob Bobson",
+      "total": "-9062.64",
+      "user": "https://api.freeagent.com/v2/users/5"
+    },
+    {
+      "category": "https://api.freeagent.com/v2/categories/606",
+      "nominal_code": "606-4",
+      "display_nominal_code": "606-4",
+      "name": "Other Capital Asset Depreciation",
+      "total": "-448.62"
+    }
+  ]
+}

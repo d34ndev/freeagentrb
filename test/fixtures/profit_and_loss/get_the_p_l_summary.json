@@ -1,0 +1,26 @@
+{
+  "profit_and_loss_summary": {
+    "from": "2016-06-01",
+    "to": "2016-09-05",
+    "income": "3800",
+    "expenses": "8200",
+    "operating_profit": "-4400",
+    "less": [
+      {
+        "title": "Corp. Tax",
+        "total": "0"
+      },
+      {
+        "title": "Dividends",
+        "total": "50"
+      },
+      {
+        "title": "Adjustments",
+        "total": "0"
+      }
+    ],
+    "retained_profit": "-4450",
+    "retained_profit_brought_forward": "15817",
+    "retained_profit_carried_forward": "11367"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "bill": {
+    "url": "https://api.freeagent.com/v2/bills/1",
+    "contact": "https://api.freeagent.com/v2/contacts/1",
+    "reference": "REF100",
+    "dated_on": "2020-09-14",
+    "due_on": "2020-10-14",
+    "currency": "GBP",
+    "total_value": "100.0",
+    "net_value": "-83.33",
+    "exchange_rate": "0.673193",
+    "paid_value": "80.0",
+    "due_value": "20.0",
+    "sales_tax_value": "-16.67",
+    "status": "Open",
+    "long_status": "Open - due in about 1 month",
+    "rebill_type": "price",
+    "rebill_factor": "20",
+    "rebill_to_project": "https://api.freeagent.com/v2/projects/1",
+    "rebilled_on_invoice_item": "https://api.freeagent.com/v2/invoices/1",
+    "updated_at": "2020-09-14T16:00:41Z",
+    "created_at": "2020-09-14T16:00:41Z",
+    "attachment": {
+      "url": "https://api.freeagent.com/v2/attachments/3",
+      "content_src": "https://s3.amazonaws.com/freeagent-dev/attachments/1/original.png?AWSAccessKeyId=1K3MW21E6T8KWBY84B02&Expires=1314281186&Signature=GFAKDo%2Bi%2FsUMTYEgg6ZWGysB4k4%3D",
+      "content_type": "image/png",
+      "file_name": "barcode.png",
+      "file_size": 7673
+    },
+    "bill_items": [
+      {
+        "url": "https://api.freeagent.com/v2/bill_items/1",
+        "bill": "https://api.freeagent.com/v2/bills/1",
+        "description": "Alex Gregory - Bill REF100",
+        "category": "https://api.freeagent.com/v2/categories/609-1",
+        "quantity": "1.0",
+        "unit": "Stock",
+        "total_value": "100.0",
+        "total_value_ex_tax": "83.33",
+        "sales_tax_status": "TAXABLE",
+        "second_sales_tax_status": "TAXABLE",
+        "sales_tax_rate": "20.0",
+        "sales_tax_value": "-16.67",
+        "second_sales_tax_rate": "0.0",
+        "second_sales_tax_value": "0.0",
+        "stock_item": "https://api.freeagent.com/v2/stock_item/42"
+      }
+    ],
+    "is_paid_by_hire_purchase": false
+  }
+}

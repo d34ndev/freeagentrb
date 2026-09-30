@@ -1,0 +1,19 @@
+{
+  "cis_settings": {
+    "contractor_details": {
+      "reporting_starts_on": "2024-05-06",
+      "paye_ni_period": "Monthly"
+    },
+    "subcontractor_details": {
+      "cis_deduction_rates": [
+        "cis_gross",
+        "cis_standard",
+        "cis_higher"
+      ],
+      "prior_deductions": {
+        "start_date": "2019-04-06",
+        "initial_balance": "300.00"
+      }
+    }
+  }
+}

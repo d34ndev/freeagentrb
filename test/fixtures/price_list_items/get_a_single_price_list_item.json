@@ -1,0 +1,16 @@
+{
+  "price_list_item": {
+    "url": "https://api.freeagent.com/v2/price_list_items/1",
+    "code": "A001",
+    "item_type": "Products",
+    "quantity": "1.0",
+    "price": "10.99",
+    "description": "Apple",
+    "sales_tax_rate": "0.0",
+    "second_sales_tax_rate": "0.0",
+    "vat_status": "standard",
+    "category": "https://api.freeagent.com/v2/categories/2",
+    "created_at": "2023-05-22T09:22:45Z",
+    "updated_at": "2023-05-25T12:43:36Z"
+  }
+}

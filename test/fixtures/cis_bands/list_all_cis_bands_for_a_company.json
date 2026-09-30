@@ -1,0 +1,25 @@
+{
+  "available_bands": [
+    {
+      "name": "cis_gross",
+      "deduction_rate": "0.0",
+      "income_description": "CIS Income (Gross)",
+      "deduction_description": "CIS Deduction (Gross)",
+      "nominal_code": "061"
+    },
+    {
+      "name": "cis_standard",
+      "deduction_rate": "0.2",
+      "income_description": "CIS Income (20%)",
+      "deduction_description": "CIS Deduction (20%)",
+      "nominal_code": "062"
+    },
+    {
+      "name": "cis_higher",
+      "deduction_rate": "0.3",
+      "income_description": "CIS Income (30%)",
+      "deduction_description": "CIS Deduction (30%)",
+      "nominal_code": "063"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "corporation_tax_return": {
+    "url": "https://api.freeagent.com/v2/corporation_tax_returns/2022-12-31",
+    "period_ends_on": "2022-12-31",
+    "period_starts_on": "2022-01-01",
+    "amount_due": "0.0",
+    "payment_due_on": "2023-10-01",
+    "filing_due_on": "2023-12-31",
+    "filing_status": "unfiled"
+  }
+}

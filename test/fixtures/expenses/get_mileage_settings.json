@@ -1,0 +1,139 @@
+{
+  "mileage_settings": {
+    "engine_type_and_size_options": [
+      {
+        "from": "1970-01-01",
+        "to": "2011-05-31",
+        "value": {
+          "Petrol": [
+            "Up to 1400cc",
+            "1401-2000cc",
+            "Over 2000cc"
+          ],
+          "Diesel": [
+            "Up to 1400cc",
+            "1401-2000cc",
+            "Over 2000cc"
+          ],
+          "LPG": [
+            "Up to 1400cc",
+            "1401-2000cc",
+            "Over 2000cc"
+          ]
+        }
+      },
+      {
+        "from": "2011-06-01",
+        "to": "2019-02-28",
+        "value": {
+          "Petrol": [
+            "Up to 1400cc",
+            "1401-2000cc",
+            "Over 2000cc"
+          ],
+          "Diesel": [
+            "Up to 1600cc",
+            "1601-2000cc",
+            "Over 2000cc"
+          ],
+          "LPG": [
+            "Up to 1400cc",
+            "1401-2000cc",
+            "Over 2000cc"
+          ]
+        }
+      },
+      {
+        "from": "2019-03-01",
+        "to": "2025-08-31",
+        "value": {
+          "Petrol": [
+            "Up to 1400cc",
+            "1401-2000cc",
+            "Over 2000cc"
+          ],
+          "Diesel": [
+            "Up to 1600cc",
+            "1601-2000cc",
+            "Over 2000cc"
+          ],
+          "LPG": [
+            "Up to 1400cc",
+            "1401-2000cc",
+            "Over 2000cc"
+          ],
+          "Electric": [
+            "All"
+          ]
+        }
+      },
+      {
+        "from": "2025-09-01",
+        "to": "2099-12-31",
+        "value": {
+          "Petrol": [
+            "Up to 1400cc",
+            "1401-2000cc",
+            "Over 2000cc"
+          ],
+          "Diesel": [
+            "Up to 1600cc",
+            "1601-2000cc",
+            "Over 2000cc"
+          ],
+          "LPG": [
+            "Up to 1400cc",
+            "1401-2000cc",
+            "Over 2000cc"
+          ],
+          "Electric (Home charger)": [
+            "All"
+          ],
+          "Electric (Public charger)": [
+            "All"
+          ]
+        }
+      }
+    ],
+    "mileage_rates": [
+      {
+        "from": "1970-01-01",
+        "to": "2011-04-05",
+        "value": {
+          "Car": {
+            "basic_rate": "0.4",
+            "additional_rate": "0.25"
+          },
+          "Motorcycle": {
+            "basic_rate": "0.24",
+            "additional_rate": "0.24"
+          },
+          "Bicycle": {
+            "basic_rate": "0.2",
+            "additional_rate": "0.2"
+          },
+          "basic_rate_limit": 10000
+        }
+      },
+      {
+        "from": "2011-04-06",
+        "to": "2099-12-31",
+        "value": {
+          "Car": {
+            "basic_rate": "0.45",
+            "additional_rate": "0.25"
+          },
+          "Motorcycle": {
+            "basic_rate": "0.24",
+            "additional_rate": "0.24"
+          },
+          "Bicycle": {
+            "basic_rate": "0.2",
+            "additional_rate": "0.2"
+          },
+          "basic_rate_limit": 10000
+        }
+      }
+    ]
+  }
+}

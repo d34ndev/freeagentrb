@@ -1,0 +1,23 @@
+{
+  "periods": [
+    {
+      "url": "https://api.freeagent.com/v2/payroll/2026/0",
+      "period": 0,
+      "frequency": "Monthly",
+      "dated_on": "2020-04-25",
+      "status": "filed",
+      "employment_allowance_claimed": true,
+      "employment_allowance_amount": "0.0",
+      "construction_industry_scheme_deduction": "0.0",
+      "created_at": "2025-04-17T11:31:58.000Z",
+      "updated_at": "2025-04-17T12:42:54.000Z"
+    }
+  ],
+  "payments": [
+    {
+      "due_on": "2025-05-22",
+      "amount_due": "738.19",
+      "status": "unpaid"
+    }
+  ]
+}

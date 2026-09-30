@@ -1,0 +1,16 @@
+{
+  "account_locks": [
+    {
+      "locked_to_date": "2024-03-31",
+      "user_lock": true,
+      "locked_by_description": "Nathan Barley",
+      "locked_by_url": "https://api.freeagent.com/v2/users/1"
+    },
+    {
+      "locked_to_date": "2023-12-31",
+      "locked_by_description": "Accounting Year End 2023/23"
+    }
+  ],
+  "earliest_lock_date": "2024-01-01",
+  "latest_lock_date": "2024-12-31"
+}

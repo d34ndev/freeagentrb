@@ -1,0 +1,7 @@
+{
+  "errors": [
+    {
+      "message": "contractor_details.paye_ni_period must be one of Monthly, Quarterly"
+    }
+  ]
+}

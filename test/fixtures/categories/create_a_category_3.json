@@ -1,0 +1,11 @@
+{
+  "admin_expenses_categories": {
+    "url": "https://api.freeagent.com/v2/categories/213",
+    "description": "Custom Admin Expenses Category",
+    "group_description": "Admin expenses (normally VATable)",
+    "nominal_code": "213",
+    "allowable_for_tax": "true",
+    "tax_reporting_name": "Computer software costs",
+    "auto_sales_tax_rate": "Standard rate"
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "account_manager": {
+    "url": "https://api.freeagent.com/v2/account_managers/123",
+    "name": "Bobson Dugnutt",
+    "email": "bobson@some-accounting-firm.com"
+  }
+}

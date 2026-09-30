@@ -1,0 +1,22 @@
+{
+  "journal_set": {
+    "url": "https://api.freeagent.com/v2/journal_sets/37",
+    "dated_on": "2014-01-18",
+    "description": "Journal Set for 2014-01-18",
+    "updated_at": "2020-02-06T11:08:28.000Z",
+    "journal_entries": [
+      {
+        "url": "https://api.freeagent.com/v2/journal_sets/37/journal_entries/17",
+        "_destroy": true
+      },
+      {
+        "url": "https://api.freeagent.com/v2/journal_sets/37/journal_entries/18",
+        "debit_value": "-20.0"
+      },
+      {
+        "category": "https://api.freeagent.com/v2/categories/001",
+        "debit_value": "-20.0"
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "expenses": [
+    {
+      "url": "https://api.freeagent.com/v2/expenses/1",
+      "user": "https://api.freeagent.com/v2/users/1",
+      "category": "https://api.freeagent.com/v2/categories/285",
+      "dated_on": "2011-08-24",
+      "currency": "USD",
+      "gross_value": "-20.0",
+      "native_gross_value": "-12.0",
+      "sales_tax_rate": "1.0",
+      "sales_tax_value": "-0.2",
+      "native_sales_tax_value": "-0.12",
+      "sales_tax_status": "TAXABLE",
+      "description": "Some description",
+      "rebilled_on_invoice": "https://api.freeagent.com/v2/invoices/1",
+      "manual_sales_tax_amount": "0.12",
+      "updated_at": "2011-08-24T08:10:40Z",
+      "created_at": "2011-08-24T08:10:40Z",
+      "attachment": {
+        "url": "https://api.freeagent.com/v2/attachments/3",
+        "content_src": "https://s3.amazonaws.com/freeagent-dev/attachments/1/original.png?AWSAccessKeyId=1K3MW21E6T8KWBY84B02&Expires=1314281186&Signature=GFAKDo%2Bi%2FsUMTYEgg6ZWGysB4k4%3D",
+        "content_type": "image/png",
+        "file_name": "barcode.png",
+        "file_size": 7673
+      }
+    }
+  ]
+}

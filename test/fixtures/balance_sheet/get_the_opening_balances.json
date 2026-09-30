@@ -1,0 +1,32 @@
+{
+  "balance_sheet": {
+    "currency": "GBP",
+    "capital_assets": {
+      "net_book_value": 0
+    },
+    "current_assets": {
+      "accounts": [
+        {
+          "name": "Bank Account: Default bank account",
+          "nominal_code": "750-1",
+          "total_debit_value": 100
+        }
+      ]
+    },
+    "current_liabilities": {
+      "accounts": [
+        {
+          "name": "Suspense Account",
+          "nominal_code": "999",
+          "total_debit_value": -100
+        }
+      ]
+    },
+    "net_current_assets": 0,
+    "total_assets": 0,
+    "owners_equity": {
+      "retained_profit": 0
+    },
+    "total_owners_equity": 0
+  }
+}

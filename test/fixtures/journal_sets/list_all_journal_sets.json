@@ -1,0 +1,26 @@
+{
+  "journal_sets": [
+    {
+      "url": "https://api.freeagent.com/v2/journal_sets/1",
+      "dated_on": "2011-07-28",
+      "description": "An example journal set",
+      "updated_at": "2020-02-06T11:08:28.000Z",
+      "tag": "MYAPPTAG",
+      "journal_entries": [
+        {
+          "url": "https://api.freeagent.com/v2/journal_entries/1",
+          "category": "https://api.freeagent.com/v2/categories/001",
+          "description": "A Sales Correction",
+          "debit_value": "-123.45"
+        },
+        {
+          "url": "https://api.freeagent.com/v2/journal_entries/2",
+          "category": "https://api.freeagent.com/v2/categories/901",
+          "user": "https://api.freeagent.com/v2/users/1",
+          "description": "Director's Capital Introduced",
+          "debit_value": "123.45"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "bills": [
+    {
+      "url": "https://api.freeagent.com/v2/bills/1",
+      "contact": "https://api.freeagent.com/v2/contacts/1",
+      "reference": "acsad",
+      "dated_on": "2020-07-28",
+      "due_on": "2020-08-27",
+      "currency": "GBP",
+      "total_value": "213.0",
+      "net_value": "-177.5",
+      "exchange_rate": "0.09702361",
+      "paid_value": "164.5",
+      "due_value": "13.0",
+      "native_due_value": "1.27",
+      "sales_tax_value": "-35.5",
+      "status": "Open",
+      "long_status": "Open - due in about 1 month",
+      "rebill_type": "price",
+      "rebill_factor": "20",
+      "rebill_to_project": "https://api.freeagent.com/v2/projects/1",
+      "rebilled_on_invoice_item": "https://api.freeagent.com/v2/invoices/1",
+      "updated_at": "2020-07-28T12:43:36Z",
+      "created_at": "2020-07-28T12:43:36Z",
+      "attachment": {
+        "url": "https://api.freeagent.com/v2/attachments/3",
+        "content_src": "https://s3.amazonaws.com/freeagent-dev/attachments/1/original.png?AWSAccessKeyId=1K3MW21E6T8KWBY84B02&Expires=1314281186&Signature=GFAKDo%2Bi%2FsUMTYEgg6ZWGysB4k4%3D",
+        "content_type": "image/png",
+        "file_name": "barcode.png",
+        "file_size": 7673
+      },
+      "cis_deduction_band": "cis_standard",
+      "cis_deduction_rate": "0.2",
+      "cis_deduction": "35.5",
+      "cis_deduction_suffered": "32.9",
+      "is_paid_by_hire_purchase": false
+    }
+  ]
+}

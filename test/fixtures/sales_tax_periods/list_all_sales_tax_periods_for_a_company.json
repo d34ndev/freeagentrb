@@ -1,0 +1,21 @@
+{
+  "sales_tax_periods": [
+    {
+      "url": "https://api.freeagent.com/v2/sales_tax_periods/1",
+      "sales_tax_name": "First Tax",
+      "sales_tax_rate_1": "2.0",
+      "sales_tax_rate_2": "3.0",
+      "sales_tax_rate_3": "4.0",
+      "sales_tax_is_value_added": true,
+      "sales_tax_registration_status": "Registered",
+      "sales_tax_registration_number": "12345678",
+      "effective_date": "2016-09-21",
+      "is_locked": false,
+      "second_sales_tax_name": "Second Tax",
+      "second_sales_tax_rate_1": "10.0",
+      "second_sales_tax_rate_2": "20.0",
+      "second_sales_tax_rate_3": "50.0",
+      "second_sales_tax_is_compound": true
+    }
+  ]
+}

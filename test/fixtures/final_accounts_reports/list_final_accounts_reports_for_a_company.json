@@ -1,0 +1,18 @@
+{
+  "final_accounts_reports": [
+    {
+      "url": "https://api.freeagent.com/v2/final_accounts_reports/2022-12-31",
+      "period_ends_on": "2022-12-31",
+      "period_starts_on": "2022-01-01",
+      "filing_due_on": "2023-09-30",
+      "filing_status": "pending"
+    },
+    {
+      "url": "https://api.freeagent.com/v2/final_accounts_reports/2023-12-31",
+      "period_ends_on": "2023-12-31",
+      "period_starts_on": "2023-01-01",
+      "filing_due_on": "2024-09-30",
+      "filing_status": "draft"
+    }
+  ]
+}

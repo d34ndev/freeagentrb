@@ -1,0 +1,11 @@
+{
+  "property": {
+    "url": "https://api.freeagent.com/v2/properties/3",
+    "name": "Wayne Manor",
+    "address2": "Wayne Manor Estate",
+    "address3": "1007 Mountain Drive",
+    "region": "New Jersey",
+    "postcode": "12345",
+    "country": "United Kingdom"
+  }
+}

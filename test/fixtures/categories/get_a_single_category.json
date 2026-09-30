@@ -1,0 +1,8 @@
+{
+  "income_categories": {
+    "url": "https://api.freeagent.com/v2/categories/001",
+    "description": "Sales",
+    "nominal_code": "001",
+    "auto_sales_tax_rate": "Standard rate"
+  }
+}

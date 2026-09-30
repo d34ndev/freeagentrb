@@ -1,0 +1,148 @@
+#!/usr/bin/env ruby
+# Downloads the example JSON responses from the FreeAgent API docs into
+# test/fixtures, so tests run against the responses FreeAgent documents.
+#
+#   bin/fixtures                  # every page
+#   bin/fixtures contacts bills   # just these pages
+#
+# Each endpoint heading on a page becomes a file named after it, e.g. the
+# "List all contacts" example is saved to test/fixtures/contacts/list_all_contacts.json.
+
+require "net/http"
+require "json"
+require "fileutils"
+require "cgi/escape"
+
+DOCS_URL = "https://dev.freeagent.com/docs".freeze
+FIXTURES_DIR = File.expand_path("../test/fixtures", __dir__).freeze
+
+# Doc pages with API endpoints. Pages that are pure reference material, like
+# currencies or sales_tax, are left out. A version is given for pages that
+# only document their endpoints under a newer API version.
+PAGES = {
+  "account_locks" => nil,
+  "accountancy_practice_api" => nil,
+  "attachments" => nil,
+  "balance_sheet" => nil,
+  "bank_accounts" => nil,
+  "bank_feeds" => nil,
+  "bank_transaction_explanation_attachments" => "2026-09-01",
+  "bank_transaction_explanations" => nil,
+  "bank_transactions" => nil,
+  "bills" => nil,
+  "capital_asset_types" => nil,
+  "capital_assets" => nil,
+  "cashflow" => nil,
+  "categories" => nil,
+  "cis_bands" => nil,
+  "cis_settings" => nil,
+  "company" => nil,
+  "contacts" => nil,
+  "corporation_tax_returns" => nil,
+  "credit_note_reconciliations" => nil,
+  "credit_notes" => nil,
+  "email_addresses" => nil,
+  "estimates" => nil,
+  "expenses" => nil,
+  "final_accounts_reports" => nil,
+  "hire_purchases" => nil,
+  "income_tax_returns" => nil, # self assessment returns
+  "invoices" => nil,
+  "journal_sets" => nil,
+  "notes" => nil,
+  "oauth" => nil,
+  "payroll" => nil,
+  "payroll_profiles" => nil,
+  "price_list_items" => nil,
+  "profit_and_loss" => nil,
+  "projects" => nil,
+  "properties" => nil,
+  "recurring_invoices" => nil,
+  "sales_tax_periods" => nil,
+  "stock_items" => nil,
+  "tasks" => nil,
+  "timeslips" => nil,
+  "transactions" => nil,
+  "trial_balance" => nil,
+  "users" => nil,
+  "vat_returns" => nil
+}.freeze
+
+def fetch(page, version)
+  uri = URI("#{DOCS_URL}/#{page}")
+  uri.query = "version=#{version}" if version
+  response = Net::HTTP.get_response(uri)
+  raise "#{uri} returned #{response.code}" unless response.is_a?(Net::HTTPSuccess)
+
+  response.body.force_encoding("UTF-8")
+end
+
+def text(html)
+  CGI.unescapeHTML(html.gsub(/<[^>]+>/, "")).strip
+end
+
+# Some examples in the docs aren't quite JSON, so strip the "..." placeholders,
+# whole-line // comments and trailing commas they use before parsing
+def parse(code)
+  JSON.parse(code)
+rescue JSON::ParserError
+  cleaned = code.lines.reject { |line| line.strip == "..." || line.strip.start_with?("//") }.join
+  JSON.parse(cleaned.gsub(/,(\s*[\]}])/, "\\1"))
+end
+
+def slug(heading)
+  heading.downcase.gsub(/[^a-z0-9]+/, "_").gsub(/\A_|_\z/, "")
+end
+
+# Yields [heading, json] for the first JSON example after each "Status:" block
+def examples(html)
+  heading = nil
+  awaiting_response = false
+
+  html.scan(%r{<h2[^>]*>(.*?)</h2>|<pre[^>]*>(.*?)</pre>}m) do |h2, pre|
+    if h2
+      heading = text(h2)
+      awaiting_response = false
+      next
+    end
+
+    code = text(pre)
+    if code.start_with?("Status:")
+      awaiting_response = true
+    elsif awaiting_response && heading && code.start_with?("{", "[")
+      awaiting_response = false
+      yield heading, code
+    end
+  end
+end
+
+pages = ARGV.empty? ? PAGES.keys : ARGV
+failures = []
+
+pages.each do |page|
+  html = fetch(page, PAGES[page])
+  dir = File.join(FIXTURES_DIR, page)
+  names = Hash.new(0)
+
+  examples(html) do |heading, code|
+    name = slug(heading)
+    names[name] += 1
+    name = "#{name}_#{names[name]}" if names[name] > 1
+
+    begin
+      json = JSON.pretty_generate(parse(code))
+    rescue JSON::ParserError => e
+      failures << "#{page}/#{name}: #{e.message.lines.first.strip}"
+      next
+    end
+
+    FileUtils.mkdir_p(dir)
+    File.write(File.join(dir, "#{name}.json"), "#{json}\n")
+    puts "#{page}/#{name}.json"
+  end
+end
+
+unless failures.empty?
+  warn "\nThese examples aren't valid JSON, so were skipped:"
+  failures.each { |failure| warn "  #{failure}" }
+end

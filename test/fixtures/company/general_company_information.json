@@ -1,0 +1,30 @@
+{
+  "company": {
+    "url": "https://api.freeagent.com/v2/company",
+    "id": "12345",
+    "name": "My Company",
+    "subdomain": "mycompany",
+    "type": "UkLimitedCompany",
+    "currency": "GBP",
+    "mileage_units": "miles",
+    "company_start_date": "2020-05-01",
+    "freeagent_start_date": "2020-05-01",
+    "first_accounting_year_end": "2011-04-30",
+    "annual_accounting_periods": [
+      {
+        "starts_on": "2020-05-01",
+        "ends_on": "2021-04-30"
+      },
+      {
+        "starts_on": "2021-05-01",
+        "ends_on": "2022-04-30"
+      }
+    ],
+    "company_registration_number": "123456",
+    "sales_tax_registration_status": "Registered",
+    "sales_tax_registration_number": "123456",
+    "cis_enabled": true,
+    "cis_subcontractor": true,
+    "cis_contractor": false
+  }
+}

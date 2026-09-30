@@ -1,0 +1,19 @@
+{
+  "account_managers": [
+    {
+      "url": "https://api.freeagent.com/v2/account_managers/123",
+      "name": "Bobson Dugnutt",
+      "email": "bobson@some-accounting-firm.com"
+    },
+    {
+      "url": "https://api.freeagent.com/v2/account_managers/456",
+      "name": "Sleve McDichael",
+      "email": "sleve@some-accounting-firm.com"
+    },
+    {
+      "url": "https://api.freeagent.com/v2/account_managers/789",
+      "name": "Todd Bonzalez",
+      "email": "todd@some-accounting-firm.com"
+    }
+  ]
+}

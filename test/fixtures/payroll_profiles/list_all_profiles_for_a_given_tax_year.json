@@ -1,0 +1,48 @@
+{
+  "profiles": [
+    {
+      "user": "https://api.freeagent.com/v2/users/107",
+      "payroll_reference": "EMP001",
+      "address_line_1": "133 Fountainbridge",
+      "address_line_2": "Tollcross",
+      "address_line_3": "Edinburgh",
+      "address_line_4": "City of Edinburgh",
+      "postcode": "EH3 9QJ",
+      "title": "Dr",
+      "gender": "Female",
+      "date_of_birth": "1990-08-17",
+      "total_pay_in_previous_employment": "1000.0",
+      "total_tax_in_previous_employment": "200.0",
+      "created_at": "2024-08-07T14:27:32.000Z",
+      "updated_at": "2024-08-07T14:27:32.000Z"
+    },
+    {
+      "user": "https://api.freeagent.com/v2/users/96",
+      "address_line_1": "31 Rue du Soleil",
+      "address_line_2": "Paris",
+      "country": "France",
+      "title": "Mx",
+      "gender": "Male",
+      "date_of_birth": "2001-07-14",
+      "total_pay_in_previous_employment": "0.0",
+      "total_tax_in_previous_employment": "0.0",
+      "employment_starts_on": "2024-06-29",
+      "created_at": "2024-06-07T15:13:24.000Z",
+      "updated_at": "2024-07-11T17:31:04.000Z"
+    },
+    {
+      "user": "https://api.freeagent.com/v2/users/112",
+      "address_line_1": "10 Leith Walk",
+      "address_line_2": "Edinburgh",
+      "postcode": "EH1 3AA",
+      "title": "Ms",
+      "gender": "Female",
+      "date_of_birth": "1985-05-05",
+      "total_pay_in_previous_employment": "0.0",
+      "total_tax_in_previous_employment": "0.0",
+      "employment_ends_on": "2025-01-25",
+      "created_at": "2024-06-07T15:13:24.000Z",
+      "updated_at": "2024-12-11T09:22:14.000Z"
+    }
+  ]
+}

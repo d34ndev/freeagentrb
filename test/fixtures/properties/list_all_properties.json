@@ -1,0 +1,33 @@
+{
+  "properties": [
+    {
+      "url": "https://api.freeagent.com/v2/properties/4",
+      "address1": "Apartment 1901",
+      "address2": "Elliott Bay Towers",
+      "town": "Seattle",
+      "region": "Washingon",
+      "postcode": "98101",
+      "country": "United Kingdom"
+    },
+    {
+      "url": "https://api.freeagent.com/v2/properties/5",
+      "address1": "Sherlock Holmes Museum",
+      "address2": "221B Baker Street",
+      "address3": "Marylebone",
+      "town": "London",
+      "region": "City of London",
+      "postcode": "NW1 6XE",
+      "country": "United Kingdom"
+    },
+    {
+      "url": "https://api.freeagent.com/v2/properties/3",
+      "address1": "Wayne Manor",
+      "address2": "Wayne Manor Estate",
+      "address3": "1007 Mountain Drive",
+      "town": "Gotham City",
+      "region": "New Jersey",
+      "postcode": "12345",
+      "country": "United Kingdom"
+    }
+  ]
+}

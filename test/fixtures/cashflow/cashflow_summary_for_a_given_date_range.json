@@ -1,0 +1,47 @@
+{
+  "cashflow": {
+    "outgoing": {
+      "total": "56276.55",
+      "months": [
+        {
+          "month": 7,
+          "year": 2019,
+          "total": "16322.05"
+        },
+        {
+          "total": "20372.0",
+          "year": 2019,
+          "month": 8
+        },
+        {
+          "month": 9,
+          "year": 2019,
+          "total": "19582.5"
+        }
+      ]
+    },
+    "from": "2019-07-01",
+    "to": "2019-09-30",
+    "incoming": {
+      "months": [
+        {
+          "month": 7,
+          "year": 2019,
+          "total": "21387.76"
+        },
+        {
+          "total": "25690.0",
+          "year": 2019,
+          "month": 8
+        },
+        {
+          "total": "21792.0",
+          "year": 2019,
+          "month": 9
+        }
+      ],
+      "total": "68869.76"
+    },
+    "balance": "12593.21"
+  }
+}

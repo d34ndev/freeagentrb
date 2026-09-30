@@ -1,0 +1,28 @@
+{
+  "journal_set": {
+    "url": "https://api.freeagent.com/v2/journal_sets/1",
+    "description": "Opening Balances Journal Set",
+    "updated_at": "2020-02-06T11:08:28.000Z",
+    "journal_entries": [
+      {
+        "url": "/v2/journal_sets/1/journal_entries/3",
+        "category": "https://api.freeagent.com/v2/categories/001",
+        "debit_value": "10.0"
+      }
+    ],
+    "bank_accounts": [
+      {
+        "url": "https://api.freeagent.com/v2/bank_accounts/1",
+        "description": "Default bank account",
+        "debit_value": "-1000.0"
+      }
+    ],
+    "stock_items": [
+      {
+        "url": "https://api.freeagent.com/v2/stock_items/1",
+        "description": "Opening Balance for Stock Item: Banana",
+        "debit_value": "-1.5"
+      }
+    ]
+  }
+}

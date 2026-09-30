@@ -1,0 +1,37 @@
+{
+  "admin_expenses_categories": [
+    {
+      "url": "https://api.freeagent.com/v2/categories/285",
+      "description": "Accommodation and Meals",
+      "nominal_code": "285",
+      "allowable_for_tax": true,
+      "tax_reporting_name": "Travel and subsistence expenses",
+      "auto_sales_tax_rate": "Standard rate"
+    }
+  ],
+  "cost_of_sales_categories": [
+    {
+      "url": "https://api.freeagent.com/v2/categories/102",
+      "description": "Commission Paid",
+      "nominal_code": "102",
+      "allowable_for_tax": true,
+      "tax_reporting_name": "Commissions Payable",
+      "auto_sales_tax_rate": "Standard rate"
+    }
+  ],
+  "income_categories": [
+    {
+      "url": "https://api.freeagent.com/v2/categories/001",
+      "description": "Sales",
+      "nominal_code": "001",
+      "auto_sales_tax_rate": "Standard rate"
+    }
+  ],
+  "general_categories": [
+    {
+      "url": "https://api.freeagent.com/v2/categories/051",
+      "description": "Interest Received",
+      "nominal_code": "051"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "hire_purchase": {
+    "url": "https://api.freeagent.com/v2/hire_purchases/1",
+    "description": "My hire purchase bill",
+    "bill": "https://api.freeagent.com/v2/bills/1",
+    "liabilities_over_one_year_category": "https://api.freeagent.com/v2/categories/793-1",
+    "liabilities_under_one_year_category": "https://api.freeagent.com/v2/categories/792-1"
+  }
+}

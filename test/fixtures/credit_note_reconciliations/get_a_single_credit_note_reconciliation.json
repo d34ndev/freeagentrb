@@ -1,0 +1,11 @@
+{
+  "credit_note_reconciliations": {
+    "url": "https://api.freeagent.com/v2/credit_note_reconciliations/1",
+    "gross_value": "100.0",
+    "dated_on": "2020-06-29",
+    "currency": "GBP",
+    "exchange_rate": "1.0",
+    "invoice": "https://api.freeagent.com/v2/invoices/1",
+    "credit_note": "https://api.freeagent.com/v2/credit_notes/1"
+  }
+}

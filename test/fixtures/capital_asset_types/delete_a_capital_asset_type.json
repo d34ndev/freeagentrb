@@ -1,0 +1,9 @@
+{
+  "capital_asset_type": {
+    "url": "https://api.freeagent.com/v2/capital_asset_types/401",
+    "name": "Spacetrains",
+    "system_default": false,
+    "created_at": "2020-12-09T17:15:54.000Z",
+    "updated_at": "2020-12-09T17:15:54.000Z"
+  }
+}

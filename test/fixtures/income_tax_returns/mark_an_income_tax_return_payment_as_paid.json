@@ -1,0 +1,28 @@
+{
+  "self_assessment_return": {
+    "url": "https://api.freeagent.com/v2/users/119/self_assessment_returns/2024-04-05",
+    "period_ends_on": "2024-04-05",
+    "period_starts_on": "2023-04-06",
+    "payments": [
+      {
+        "label": "Payment on Account",
+        "amount_due": "3009.01",
+        "due_on": "2024-01-31",
+        "status": "marked_as_paid"
+      },
+      {
+        "label": "Payment on Account",
+        "amount_due": "3009.01",
+        "due_on": "2024-07-31",
+        "status": "unpaid"
+      },
+      {
+        "label": "Balancing Payment",
+        "amount_due": "-6018.02",
+        "due_on": "2025-01-31"
+      }
+    ],
+    "filing_due_on": "2025-01-31",
+    "filing_status": "marked_as_filed"
+  }
+}

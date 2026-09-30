@@ -1,0 +1,9 @@
+{
+  "clients": [
+    {
+      "id": 123,
+      "name": "Test Company",
+      "subdomain": "testcompany"
+    }
+  ]
+}

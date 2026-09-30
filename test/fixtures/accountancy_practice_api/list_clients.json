@@ -1,0 +1,44 @@
+{
+  "clients": [
+    {
+      "account_manager": "https://api.freeagent.com/v2/account_managers/123",
+      "postcode": "EH3 9QG",
+      "type": "UkLimitedCompany",
+      "sales_tax_is_value_added": true,
+      "first_accounting_year_end": "2014-12-31",
+      "cis_enabled": true,
+      "sales_tax_registration_number": "5555555555",
+      "company_start_date": "2008-01-01",
+      "vat_frs_type": "Not on Flat Rate Scheme",
+      "initial_vat_basis": "Cash",
+      "subdomain": "testcompany",
+      "contact_phone": "",
+      "sales_tax_name": "VAT",
+      "website": "",
+      "address1": "One Edinburgh Quay",
+      "address2": "133 Fountainbridge",
+      "updated_at": "2018-03-06T16:16:33.000+00:00",
+      "contact_email": "maemail@email.com",
+      "ec_vat_reporting_enabled": true,
+      "company_registration_number": "",
+      "town": "Edinburgh",
+      "sales_tax_effective_date": "2013-11-01",
+      "name": "Test Company",
+      "url": "https://api.freeagent.com/v2/company",
+      "country": "United Kingdom",
+      "region": "Anywhere",
+      "sales_tax_registration_status": "Registered",
+      "created_at": "2015-01-12T11:45:32.000+00:00",
+      "freeagent_start_date": "2008-02-01",
+      "status": "Active Licence",
+      "account_owner": {
+        "first_name": "Jane",
+        "last_name": "Smith",
+        "last_logged_in_at": "2023-09-21T10:32:02.000+01:00"
+      }
+    },
+    {
+      "account_manager": "https://api.freeagent.com/v2/account_managers/123"
+    }
+  ]
+}

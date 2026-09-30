@@ -1,0 +1,38 @@
+{
+  "recurring_invoice": {
+    "url": "https://api.freeagent.com/v2/recurring_invoices/1",
+    "contact": "https://api.freeagent.com/v2/contacts/1",
+    "contact_name": "Nathan Barley",
+    "dated_on": "2012-02-29",
+    "frequency": "Weekly",
+    "next_recurs_on": "2012-03-07",
+    "recurring_end_date": "2012-05-16",
+    "recurring_status": "Draft",
+    "reference": "002",
+    "currency": "GBP",
+    "exchange_rate": "1.0",
+    "net_value": "2.0",
+    "sales_tax_value": "0.4",
+    "total_value": "2.4",
+    "omit_header": false,
+    "always_show_bic_and_iban": false,
+    "payment_terms_in_days": 30,
+    "invoice_items": [
+      {
+        "url": "https://api.freeagent.com/v2/invoice_items/1",
+        "position": 1,
+        "description": "Item",
+        "item_type": "Hours",
+        "price": "2.0",
+        "quantity": "1.0",
+        "sales_tax_rate": "20.0",
+        "sales_tax_status": "TAXABLE",
+        "category": "https://api.freeagent.com/v2/categories/001"
+      }
+    ],
+    "payment_methods": {
+      "paypal": true,
+      "stripe": false
+    }
+  }
+}

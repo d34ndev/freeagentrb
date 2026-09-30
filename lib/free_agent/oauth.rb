@@ -42,7 +42,7 @@ module FreeAgent
 
       return false if response.status != 200
 
-      JSON.parse(response.body, object_class: OpenStruct)
+      FreeAgent::Object.new(JSON.parse(response.body))
     end
   end
 end

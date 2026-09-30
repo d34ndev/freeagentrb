@@ -38,4 +38,19 @@ class BankTransactionsResourceTest < Minitest::Test
 
     assert_equal true, result
   end
+
+  def test_amounts_are_coerced_to_floats
+    transaction = FreeAgent::BankTransaction.new(
+      "amount" => "-25.50",
+      "unexplained_amount" => "0.0",
+      "bank_transaction_explanations" => [
+        { "url" => "https://api.freeagent.com/v2/bank_transaction_explanations/12345", "gross_value" => "-25.50" }
+      ]
+    )
+
+    assert_equal(-25.5, transaction.amount)
+    assert_equal 0.0, transaction.unexplained_amount
+    assert_equal "12345", transaction.bank_transaction_explanations.first.id
+    assert_equal(-25.5, transaction.bank_transaction_explanations.first.gross_value)
+  end
 end

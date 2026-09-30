@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     freeagentrb (0.1.4)
-      faraday (~> 2.11)
+      faraday (>= 2.14.3, < 3)
       faraday-multipart (~> 1.0)
       ostruct (~> 0.6.0)
 

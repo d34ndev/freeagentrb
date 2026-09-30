@@ -168,8 +168,25 @@ A bank account is required when listing.
 @client.bank_transaction_explanations.list bank_account: "https://api.freeagent.com/v2/bank_accounts/1"
 @client.bank_transaction_explanations.retrieve(id: "12345")
 @client.bank_transaction_explanations.create bank_transaction: "...", dated_on: "2026-08-15", gross_value: "-100.0", category: "..."
+@client.bank_transaction_explanations.update id: "12345", description: "Hosting"
 @client.bank_transaction_explanations.delete id: "12345"
+
+# File attachments, up to 50 per explanation. These endpoints always send
+# X-Api-Version 2026-09-01 or later.
+@client.bank_transaction_explanations.attachments id: "12345"
+@client.bank_transaction_explanations.add_attachments id: "12345", attachments: [
+  { data: Base64.strict_encode64(File.binread("receipt.png")), file_name: "receipt.png", content_type: "image/png" }
+]
+@client.bank_transaction_explanations.update_attachments id: "12345", attachments: [
+  { url: "https://api.freeagent.com/v2/attachments/1", description: "Printer receipt" },
+  { url: "https://api.freeagent.com/v2/attachments/2", _destroy: true }
+]
+@client.bank_transaction_explanations.delete_attachments id: "12345"
 ```
+
+From 1 December 2026, explanations return an `attachments` array instead of a
+single `attachment`, and attachments can only be changed through the endpoints
+above.
 
 ### Projects
 

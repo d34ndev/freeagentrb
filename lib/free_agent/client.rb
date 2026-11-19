@@ -234,7 +234,7 @@ module FreeAgent
         conn.response :json
 
         conn.headers = {
-          "User-Agent" => "freeagentrb/v#{VERSION} (github.com/deanpcmad/freeagentrb)"
+          "User-Agent" => "freeagentrb/v#{VERSION} (github.com/d34ndev/freeagentrb)"
         }
 
         # Make requests on behalf of a practice client
@@ -256,7 +256,7 @@ module FreeAgent
         conn.request :authorization, :Bearer, access_token
         conn.request :multipart
 
-        conn.headers["User-Agent"] = "freeagentrb/v#{VERSION} (github.com/deanpcmad/freeagentrb)"
+        conn.headers["User-Agent"] = "freeagentrb/v#{VERSION} (github.com/d34ndev/freeagentrb)"
         conn.headers["X-Subdomain"] = subdomain if subdomain
         conn.headers["X-Api-Version"] = api_version if api_version
       end

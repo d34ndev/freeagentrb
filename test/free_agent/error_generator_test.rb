@@ -95,4 +95,28 @@ class ErrorGeneratorTest < Minitest::Test
 
     assert_includes error.message, "Your request exceeded the API rate limit"
   end
+
+  def test_errors_without_a_body
+    [ nil, "", "<html>Bad gateway</html>" ].each do |body|
+      FreeAgent::ErrorFactory::HTTP_ERROR_MAP.each do |status, error_class|
+        error = FreeAgent::ErrorFactory.create(body, status)
+
+        assert_instance_of error_class, error
+        assert_nil error.freeagent_error_message
+        assert_match "Error #{status}", error.message
+      end
+    end
+  end
+
+  def test_conflict_without_a_body
+    error = FreeAgent::ErrorFactory.create(nil, 409)
+
+    assert_equal "Error 409: Your request was a conflict.", error.message
+  end
+
+  def test_unknown_error_without_a_body
+    error = FreeAgent::ErrorGenerator.new(nil, 418)
+
+    assert_equal "Error 418: An unknown error occurred.", error.message
+  end
 end

@@ -25,10 +25,10 @@ module FreeAgent
       end
     end
 
+    # Some errors, such as a 409 when deleting a sent invoice, come with no
+    # body at all
     def error_message
-      @freeagent_error_message || @response_body.dig("error")
-    rescue NoMethodError
-      "An unknown error occurred."
+      @freeagent_error_message || (@response_body["error"] if @response_body.is_a?(Hash)) || "An unknown error occurred."
     end
 
     def build_message
